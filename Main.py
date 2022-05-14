@@ -1,10 +1,14 @@
 from PyQt5.QtWidgets import QMainWindow, QApplication
 import sys
 import Window
+import Global_var
 from Class import *
 from Thread import *
 
-# 添加新进程到后备队列并检测能否入就绪队列
+# 5.15 1:35 可以用全局变量传递新进程信息
+
+
+# 添加新进程到后备队列
 def pressaddbutton():
     if ui.NewProgressName != None and ui.NewProgressMemory != None and ui.NewProgressTime != None:
         Global_var.WaitingQueue.append(PCB(ui.NewProgressName, ui.NewProgressTime, ui.NewProgressMemory,
@@ -25,3 +29,4 @@ if __name__ == '__main__':     # mainThread
 
     Mainwindow.show()
     sys.exit(app.exec_())  # exe cycle/circulation
+
