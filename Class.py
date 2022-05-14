@@ -1,5 +1,5 @@
 class PCB:
-    def __init__(self, progressname, runningtime, priority, status):
+    def __init__(self, progressname, runningtime, priority, status='Waiting'):
         self.progressname = progressname
         self.runningtime = runningtime
         self.priority = priority
