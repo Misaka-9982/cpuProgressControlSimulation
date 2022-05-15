@@ -3,7 +3,7 @@ import sys
 import Window
 import Global_var
 from Class import *
-from Thread import *
+from MultiThread import *
 
 # 5.15 1:35 可以用全局变量传递新进程信息
 
