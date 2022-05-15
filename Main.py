@@ -1,11 +1,11 @@
-from PyQt5.QtWidgets import QMainWindow, QApplication
+from PyQt5.QtWidgets import QMainWindow, QApplication, QTableWidgetItem
 import sys
 import Window
 import Global_var
 from Class import *
 from MultiThread import *
+from Core import *
 
-# 5.15 1:35 可以用全局变量传递新进程信息
 
 
 # 添加新进程到后备队列
