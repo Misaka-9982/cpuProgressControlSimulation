@@ -3,7 +3,7 @@ from time import *
 # 该模块为与ui无关的逻辑函数
 
 
-def detectwaitingprogressqueue():
+def detectwaitingprogressqueue():  # 检测后备队列有无可调入就绪队列的进程
     while True:
         if len(Global_var.WaitingQueue) != 0:
             Global_var.WaitingQueue.sort(reverse=True, key=lambda pcb: pcb.priority)  # key传进函数的是列表中的每一个元素
@@ -15,8 +15,8 @@ def detectwaitingprogressqueue():
 
 def cputiming():  # cpu计时，要在检测就绪队列之后启动
     while Global_var.runningprogress and Global_var.runningprogress.runningtime > 0:
-        sleep(0.5)
-        Global_var.runningprogress.runningtime -= 0.5
+        sleep(0.2)
+        Global_var.runningprogress.runningtime -= 0.2
     if Global_var.runningprogress and Global_var.runningprogress.runningtime <= 0:
         Global_var.runningprogress = None
 
@@ -29,8 +29,6 @@ def detectreadyprogressqueue():  # 检测就绪队列有无需要抢占当前运
         elif Global_var.ReadyQueue[0].priority > Global_var.runningprogress.priority:  # 有正在运行的进程
             Global_var.ReadyQueue.append(Global_var.runningprogress)
             Global_var.runningprogress = Global_var.ReadyQueue[0]
-
-
 
 
 def ismemoryenough(n):

@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QTableWidgetItem
 import sys
 import Window
 import Global_var
+from Memory import *
 from Class import *
 from MultiThread import *
 from Core import *
