@@ -9,13 +9,15 @@ class PCB:
 
 
 class MemoryPartition:
-    def __init__(self, start=0, size=1024, status='free'):
+    def __init__(self, start=0, size=1024, status='free'):  # size单位为MB
         self.start = start
         self.size = size
         self.status = status
 
 
+'''
 class LinkList:
     def __init__(self, data, nextnode):
         self.data = data
         self.nextnode = nextnode
+'''
