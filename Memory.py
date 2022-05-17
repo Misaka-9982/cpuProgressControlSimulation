@@ -39,7 +39,7 @@ def memoryrelease(process):
 def memorymerge():
     Global_var.FreePartition.sort(key=lambda x: x.start)  # 按照起址排序
     for n, i in enumerate(Global_var.FreePartition):
-        if i.start + i.size == Global_var.FreePartition[n+1].start:
+        if n != len(Global_var.FreePartition)-1 and i.start + i.size == Global_var.FreePartition[n+1].start:
             Global_var.FreePartition[n].size += Global_var.FreePartition[n+1].size
             Global_var.FreePartition.pop(n+1)
 
