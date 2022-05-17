@@ -28,5 +28,12 @@ if __name__ == '__main__':     # mainThread
     # 绑定槽函数
     ui.AddButton.clicked.connect(pressaddbutton)
 
+    # 创建线程
+    t_detectwaitingprocessqueue.start()
+    t_detectreadyprocessqueue.start()
+    t_cputiming.start()
+    t_memorydetect.start()
+
+
     Mainwindow.show()
     sys.exit(app.exec_())  # exe cycle/circulation

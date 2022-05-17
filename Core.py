@@ -16,12 +16,13 @@ def detectwaitingprocessqueue():  # 检测后备队列有无可调入就绪队�
 
 
 def cputiming():  # cpu计时，要在检测就绪队列之后启动
-    while Global_var.Runningprocess and Global_var.Runningprocess.runningtime > 0:
-        sleep(0.2)
-        Global_var.Runningprocess.runningtime -= 0.2
-    if Global_var.Runningprocess and Global_var.Runningprocess.runningtime <= 0:
-        memoryrelease(Global_var.Runningprocess)
-        Global_var.Runningprocess = None
+    if Global_var.Runningprocess is not None:
+        while Global_var.Runningprocess and Global_var.Runningprocess.runningtime > 0:
+            sleep(0.2)
+            Global_var.Runningprocess.runningtime -= 0.2
+        if Global_var.Runningprocess and Global_var.Runningprocess.runningtime <= 0:
+            memoryrelease(Global_var.Runningprocess)
+            Global_var.Runningprocess = None
 
 
 def detectreadyprocessqueue():  # 检测就绪队列有无需要抢占当前运行进程
