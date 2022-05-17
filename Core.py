@@ -35,11 +35,13 @@ def detectreadyprocessqueue():  # 检测就绪队列有无需要抢占当前运�
             Global_var.ReadyQueue.remove(0)
 
 
-def hanginggrogress():
-    pass
+def hangingprocess():
+    Global_var.HangingQueue.append(Global_var.Runningprocess)
+    memoryrelease(Global_var.Runningprocess)
+    Global_var.Runningprocess = None
 
 
-def unhangingprocess():
-    pass
-
+def unhangingprocess(process):
+    Global_var.ReadyQueue.append(process)
+    Global_var.HangingQueue.remove(process)
 
