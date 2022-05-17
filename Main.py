@@ -34,6 +34,5 @@ if __name__ == '__main__':     # mainThread
     t_cputiming.start()
     t_memorydetect.start()
 
-
     Mainwindow.show()
     sys.exit(app.exec_())  # exe cycle/circulation
