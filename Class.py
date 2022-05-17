@@ -9,11 +9,10 @@ class PCB:
 
 
 class MemoryPartition:
-    def __init__(self, start=0, size=1024, status='free'):  # size单位为MB
+    def __init__(self, start=0, size=1024, usingprogress=None):  # size单位为MB
         self.start = start
         self.size = size
-        self.status = status
-
+        self.usingprogress = usingprogress  # 记录占用当前分区的进程名字，不是完整PCB
 
 '''
 class LinkList:

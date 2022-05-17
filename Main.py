@@ -8,10 +8,9 @@ from MultiThread import *
 from Core import *
 
 
-
 # 添加新进程到后备队列
 def pressaddbutton():
-    if ui.NewProgressName != None and ui.NewProgressMemory != None and ui.NewProgressTime != None:
+    if ui.NewProgressName is not None and ui.NewProgressMemory is not None and ui.NewProgressTime is not None:
         Global_var.WaitingQueue.append(PCB(ui.NewProgressName, ui.NewProgressTime, ui.NewProgressMemory,
                                            ui.NewProgressPriority))
     else:
