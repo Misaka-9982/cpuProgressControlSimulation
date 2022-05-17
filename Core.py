@@ -9,9 +9,9 @@ def detectwaitingprogressqueue():  # 检测后备队列有无可调入就绪队�
         if len(Global_var.WaitingQueue) != 0:
             Global_var.WaitingQueue.sort(reverse=True, key=lambda pcb: pcb.priority)  # key传进函数的是列表中的每一个元素
             for i in Global_var.WaitingQueue:
-                if ismemoryenough(progress=i.memory) is True:
+                if ismemoryenough(progress=i) is True:
                     Global_var.ReadyQueue.append(i)
-                    #memoryallocation(progress=i.progressname, )
+                    memoryallocation(progress=i)  # 分配内存
                     Global_var.WaitingQueue.remove(i)  # remove是移除指定元素，pop是指定下标的元素
 
 
@@ -20,6 +20,7 @@ def cputiming():  # cpu计时，要在检测就绪队列之后启动
         sleep(0.2)
         Global_var.RunningProgress.runningtime -= 0.2
     if Global_var.RunningProgress and Global_var.RunningProgress.runningtime <= 0:
+        memoryrelease(Global_var.RunningProgress)
         Global_var.RunningProgress = None
 
 
@@ -31,5 +32,6 @@ def detectreadyprogressqueue():  # 检测就绪队列有无需要抢占当前运
         elif Global_var.ReadyQueue[0].priority > Global_var.RunningProgress.priority:  # 有正在运行的进程
             Global_var.ReadyQueue.append(Global_var.RunningProgress)
             Global_var.RunningProgress = Global_var.ReadyQueue[0]
+            Global_var.ReadyQueue.remove(0)
 
 
