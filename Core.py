@@ -33,5 +33,3 @@ def detectreadyprogressqueue():  # 检测就绪队列有无需要抢占当前运
             Global_var.ReadyQueue.append(Global_var.RunningProgress)
             Global_var.RunningProgress = Global_var.ReadyQueue[0]
             Global_var.ReadyQueue.remove(0)
-
-
