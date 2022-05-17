@@ -9,8 +9,9 @@ def detectwaitingprogressqueue():  # 检测后备队列有无可调入就绪队�
         if len(Global_var.WaitingQueue) != 0:
             Global_var.WaitingQueue.sort(reverse=True, key=lambda pcb: pcb.priority)  # key传进函数的是列表中的每一个元素
             for i in Global_var.WaitingQueue:
-                if ismemoryenough(i) is True:
+                if ismemoryenough(progress=i.memory) is True:
                     Global_var.ReadyQueue.append(i)
+                    #memoryallocation(progress=i.progressname, )
                     Global_var.WaitingQueue.remove(i)  # remove是移除指定元素，pop是指定下标的元素
 
 
