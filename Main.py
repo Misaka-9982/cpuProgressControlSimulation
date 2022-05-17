@@ -9,13 +9,14 @@ from Core import *
 
 
 # 添加新进程到后备队列
-def pressaddbutton():
-    if ui.NewProgressName is not None and ui.NewProgressMemory is not None and ui.NewProgressTime is not None:
-        Global_var.WaitingQueue.append(PCB(ui.NewProgressName, ui.NewProgressTime, ui.NewProgressMemory,
-                                           ui.NewProgressPriority))
+def pressaddbutton():                                                                                       # 反斜杠续行
+    if ui.NewProgressName.text() != '' and ui.NewProgressMemory.text() != '' and ui.NewProgressTime.text() \
+            != '':
+        Global_var.WaitingQueue.append(PCB(ui.NewProgressName.text(), ui.NewProgressTime.text(),
+                                           ui.NewProgressMemory.text(), ui.NewProgressPriority.currentText()))
     else:
         # 报错弹窗
-        pass
+        print('error')
 
 
 if __name__ == '__main__':     # mainThread
