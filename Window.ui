@@ -104,7 +104,7 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QLabel" name="AddProgressLabel">
+      <widget class="QLabel" name="AddProcessLabel">
        <property name="font">
         <font>
          <family>微软雅黑</family>
@@ -145,7 +145,7 @@
         </spacer>
        </item>
        <item>
-        <widget class="QLineEdit" name="NewProgressName"/>
+        <widget class="QLineEdit" name="NewProcessName"/>
        </item>
       </layout>
      </item>
@@ -171,7 +171,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="NewProgressPriority">
+        <widget class="QComboBox" name="NewProcessPriority">
          <item>
           <property name="text">
            <string>1</string>
@@ -236,7 +236,7 @@
         </spacer>
        </item>
        <item>
-        <widget class="QLineEdit" name="NewProgressTime"/>
+        <widget class="QLineEdit" name="NewProcessTime"/>
        </item>
       </layout>
      </item>
@@ -262,7 +262,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="NewProgressMemory"/>
+        <widget class="QLineEdit" name="NewProcessMemory"/>
        </item>
       </layout>
      </item>

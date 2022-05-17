@@ -10,10 +10,10 @@ from Core import *
 
 # 添加新进程到后备队列
 def pressaddbutton():                                                                                       # 反斜杠续行
-    if ui.NewProgressName.text() != '' and ui.NewProgressMemory.text() != '' and ui.NewProgressTime.text() \
+    if ui.NewProcessName.text() != '' and ui.NewProcessMemory.text() != '' and ui.NewProcessTime.text() \
             != '':
-        Global_var.WaitingQueue.append(PCB(ui.NewProgressName.text(), ui.NewProgressTime.text(),
-                                           ui.NewProgressMemory.text(), ui.NewProgressPriority.currentText()))
+        Global_var.WaitingQueue.append(PCB(ui.NewProcessName.text(), ui.NewProcessTime.text(),
+                                           ui.NewProcessMemory.text(), ui.NewProcessPriority.currentText()))
     else:
         # 报错弹窗
         print('error')
@@ -30,4 +30,3 @@ if __name__ == '__main__':     # mainThread
 
     Mainwindow.show()
     sys.exit(app.exec_())  # exe cycle/circulation
-
