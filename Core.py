@@ -43,5 +43,3 @@ def unhangingprocess():
     pass
 
 
-def memorydetect():
-    pass

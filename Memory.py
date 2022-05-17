@@ -42,3 +42,10 @@ def memorymerge():
         if i.start + i.size == Global_var.FreePartition[n+1].start:
             Global_var.FreePartition[n].size += Global_var.FreePartition[n+1].size
             Global_var.FreePartition.pop(n+1)
+
+# 检测剩余内存总量
+def memorydetect():
+    sumfreememory = 0
+    for i in Global_var.FreePartition:
+        sumfreememory += i.size
+    return sumfreememory
