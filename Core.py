@@ -9,7 +9,10 @@ from Memory import *
 def detectwaitingprocessqueue():  # 检测后备队列有无可调入就绪队列的进程
     while True:
         if len(Global_var.WaitingQueue) != 0:
-            Global_var.WaitingQueue.sort(reverse=True, key=lambda pcb: pcb.priority)  # key传进函数的是列表中的每一个元素
+            try:
+                Global_var.WaitingQueue.sort(reverse=True, key=lambda pcb: pcb.priority)  # key传进函数的是列表中的每一个元素
+            except ValueError:
+                pass
             for i in Global_var.WaitingQueue:
                 if ismemoryenough(process=i) is True:
                     Global_var.ReadyQueue.append(i)
@@ -30,7 +33,10 @@ def cputiming():  # cpu计时，要在检测就绪队列之后启动
 
 def detectreadyprocessqueue():  # 检测就绪队列有无需要抢占当前运行进程
     while len(Global_var.ReadyQueue):
-        Global_var.ReadyQueue.sort(reverse=True, key=lambda pcb: pcb.priority)
+        try:
+            Global_var.ReadyQueue.sort(reverse=True, key=lambda pcb: pcb.priority)
+        except ValueError:
+            pass
         if Global_var.Runningprocess is None:  # 当前无正在运行进程
             Global_var.Runningprocess = Global_var.ReadyQueue[0]
             Global_var.Runningprocess.status = 'Running'
