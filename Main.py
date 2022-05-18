@@ -11,15 +11,14 @@ def pressaddbutton():                                                           
             != '':
         Global_var.WaitingQueue.append(PCB(ui.NewProcessName.text(), int(ui.NewProcessTime.text()),
                                            int(ui.NewProcessMemory.text()), ui.NewProcessPriority.currentText()))
-        '''
         ui.NewProcessName.setText('')
         ui.NewProcessMemory.setText('')
         ui.NewProcessTime.setText('')
         ui.NewProcessPriority.setCurrentIndex(0)
-        '''
     else:
         # 报错弹窗
         print('error')
+
 
 # 限制输入框输入数据类型
 def edittextvaluecontrol():
@@ -27,8 +26,8 @@ def edittextvaluecontrol():
     ui.NewProcessTime.setValidator(Window.QtGui.QDoubleValidator())
 
 
-def updatememorybar():
-    pass
+def updatememorybar(summemory):
+    ui.MemoryBar.setValue(summemory/Global_var.SumSpace)
 
 
 if __name__ == '__main__':     # mainThread

@@ -2,6 +2,7 @@ import Class
 import Global_var
 import Main
 from Class import *
+from time import *
 
 
 def ismemoryenough(process):
@@ -50,9 +51,13 @@ def memorymerge():
 
 # 检测剩余内存总量
 def memorydetect():
-    sumfreememory = 0
-    for i in Global_var.FreePartition:
-        sumfreememory += i.size
-    if sumfreememory != Global_var.FreeMemory:
-        Global_var.FreeMemory = sumfreememory
-
+    sleep(1)
+    beforememory = 0
+    while True:
+        sumfreememory = 0
+        for i in Global_var.FreePartition:
+            sumfreememory += i.size
+        if sumfreememory != beforememory:
+            beforememory = sumfreememory
+            Main.updatememorybar(sumfreememory)
+            print(123)
