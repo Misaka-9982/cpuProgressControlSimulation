@@ -11,10 +11,12 @@ def pressaddbutton():                                                           
             != '':
         Global_var.WaitingQueue.append(PCB(ui.NewProcessName.text(), int(ui.NewProcessTime.text()),
                                            int(ui.NewProcessMemory.text()), ui.NewProcessPriority.currentText()))
+        '''
         ui.NewProcessName.setText('')
         ui.NewProcessMemory.setText('')
         ui.NewProcessTime.setText('')
         ui.NewProcessPriority.setCurrentIndex(0)
+        '''
     else:
         # 报错弹窗
         print('error')
@@ -30,16 +32,15 @@ def edittextvaluecontrol():
 def memorydetect():
     beforememory = 0
     while True:
-        sumfreememory = 0
-        for i in Global_var.FreePartition:
-            sumfreememory += i.size
-        if sumfreememory != beforememory:
-            beforememory = sumfreememory
-            try:
-                ui.MemoryBar.setValue(sumfreememory/Global_var.SumSpace)
-                print('updatesuccess')
-            except NameError:
-                print('updatefail')
+        sumusedmemory = 0
+        for i in Global_var.UsedPartition:
+            sumusedmemory += i.size
+        if sumusedmemory != beforememory:
+            beforememory = sumusedmemory
+            ui.MemoryBar.setProperty('value', (sumusedmemory/Global_var.SumSpace)*100)
+            # setvalue 是设置进度条步进步数的！！！！
+            ui.MemoryBar.update()  # 不刷新控件会导致百分比数字重叠
+            #print('updatesuccess')
 
 
 if __name__ == '__main__':     # mainThread

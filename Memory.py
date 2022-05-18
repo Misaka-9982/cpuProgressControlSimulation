@@ -5,22 +5,31 @@ from Class import *
 
 def ismemoryenough(process):
     freememory = 0
-    memorymerge()  # 检测前就执行一次内存合并，简化后续分配步骤，提高效率  # 合并可能本身比较费时间？# 如果要把这步拿出去，需要修改内存分配逻辑
+    #memorymerge()  # 检测前就执行一次内存合并，简化后续分配步骤，提高效率  # 合并可能本身比较费时间？# 如果要把这步拿出去，需要修改内存分配逻辑
     for i in Global_var.FreePartition:
         freememory += i.size
-        print(freememory)
         if freememory >= process.memory:
+            '''
+            # 临时调试用代码 输出完整剩余内存大小
+            y = 0
+            for x in Global_var.FreePartition:
+                y += x.size
+                print(y)
+            '''
             return True
 
     if freememory < process.memory:
+        print(freememory)
         return False
 
 
 def memoryallocation(process):   # 分配前要先用调用检查，这里只分配不检查是否足够
+    memorymerge()
     for n, i in enumerate(Global_var.FreePartition):
         if process.memory <= i.size:
             Global_var.UsedPartition.append(Class.MemoryPartition(start=i.start, size=process.memory,
                                                                   usingprocess=process.processname))
+
             Global_var.FreePartition[n].start += process.memory
             Global_var.FreePartition[n].size -= process.memory
             break
@@ -41,7 +50,7 @@ def memorymerge():
     try:
         Global_var.FreePartition.sort(key=lambda x: x.start)  # 按照起址排序
     except ValueError:
-        pass
+        print('valueerror_m')
     for n, i in enumerate(Global_var.FreePartition):
         if n != len(Global_var.FreePartition)-1 and i.start + i.size == Global_var.FreePartition[n+1].start:
             Global_var.FreePartition[n].size += Global_var.FreePartition[n+1].size
