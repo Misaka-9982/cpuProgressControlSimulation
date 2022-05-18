@@ -1,9 +1,6 @@
 from PyQt5.QtWidgets import QMainWindow, QApplication, QTableWidgetItem
 import sys
 import Window
-from Class import *
-import Global_var
-from Memory import *
 from MultiThread import *
 from Core import *
 
@@ -28,6 +25,10 @@ def pressaddbutton():                                                           
 def edittextvaluecontrol():
     ui.NewProcessMemory.setValidator(Window.QtGui.QDoubleValidator())
     ui.NewProcessTime.setValidator(Window.QtGui.QDoubleValidator())
+
+
+def updatememorybar():
+    pass
 
 
 if __name__ == '__main__':     # mainThread

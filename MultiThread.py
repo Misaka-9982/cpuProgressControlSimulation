@@ -1,6 +1,7 @@
 import threading
 import Global_var
 from Core import *
+from Memory import *
 
 t_detectwaitingprocessqueue = threading.Thread(target=detectwaitingprocessqueue, args=())
 t_cputiming = threading.Thread(target=cputiming, args=())

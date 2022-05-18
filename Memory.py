@@ -1,5 +1,6 @@
 import Class
 import Global_var
+import Main
 from Class import *
 
 
@@ -46,9 +47,12 @@ def memorymerge():
             Global_var.FreePartition[n].size += Global_var.FreePartition[n+1].size
             Global_var.FreePartition.pop(n+1)
 
+
 # 检测剩余内存总量
 def memorydetect():
     sumfreememory = 0
     for i in Global_var.FreePartition:
         sumfreememory += i.size
-    return sumfreememory
+    if sumfreememory != Global_var.FreeMemory:
+        Global_var.FreeMemory = sumfreememory
+
