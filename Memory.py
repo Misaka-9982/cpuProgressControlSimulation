@@ -20,7 +20,7 @@ def memoryallocation(process):   # 分配前要先用调用检查，这里只分
     for n, i in enumerate(Global_var.FreePartition):
         if process.memory <= i.size:
             Global_var.UsedPartition.append(Class.MemoryPartition(start=i.start, size=process.memory,
-                                                                  usingprocess=process.name))
+                                                                  usingprocess=process.processname))
             Global_var.FreePartition[n].start += process.memory
             Global_var.FreePartition[n].size -= process.memory
             break
