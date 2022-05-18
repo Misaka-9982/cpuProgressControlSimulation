@@ -50,3 +50,4 @@ if __name__ == '__main__':     # mainThread
 
     Mainwindow.show()
     sys.exit(app.exec_())  # exe cycle/circulation
+
