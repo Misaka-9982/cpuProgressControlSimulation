@@ -7,10 +7,11 @@ def ismemoryenough(process):
     freememory = 0
     memorymerge()  # 检测前就执行一次内存合并，简化后续分配步骤，提高效率  # 合并可能本身比较费时间？# 如果要把这步拿出去，需要修改内存分配逻辑
     for i in Global_var.FreePartition:
-        if freememory < process.memory:
-            freememory += i.size
-        else:
+        freememory += i.size
+        print(freememory)
+        if freememory >= process.memory:
             return True
+
     if freememory < process.memory:
         return False
 
@@ -47,16 +48,3 @@ def memorymerge():
             Global_var.FreePartition.pop(n+1)
 
 
-# 检测剩余内存总量
-def memorydetect():
-    beforememory = 0
-    while True:
-        sumfreememory = 0
-        for i in Global_var.FreePartition:
-            sumfreememory += i.size
-        if sumfreememory != beforememory:
-            beforememory = sumfreememory
-            try:
-                print('updatesuccess')
-            except NameError:
-                print('updatefail')

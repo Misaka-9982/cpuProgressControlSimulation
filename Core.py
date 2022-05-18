@@ -11,9 +11,12 @@ def detectwaitingprocessqueue():  # 检测后备队列有无可调入就绪队�
         if len(Global_var.WaitingQueue) != 0:
             try:
                 Global_var.WaitingQueue.sort(reverse=True, key=lambda pcb: pcb.priority)  # key传进函数的是列表中的每一个元素
+                print('test1')
             except ValueError:
                 pass
+            print('test2')
             for i in Global_var.WaitingQueue:
+                print(ismemoryenough(i))
                 if ismemoryenough(process=i) is True:
                     Global_var.ReadyQueue.append(i)
                     Global_var.ReadyQueue[len(Global_var.ReadyQueue)-1].status = 'Ready'

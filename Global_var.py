@@ -8,4 +8,5 @@ Runningprocess = None  # 正在运行的进程
 UsedPartition = []
 FreePartition = [Memory.MemoryPartition()]
 SumSpace = 1024
+
 # MinimumPartition = 5  # MB

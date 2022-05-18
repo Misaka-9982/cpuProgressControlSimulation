@@ -26,8 +26,20 @@ def edittextvaluecontrol():
     ui.NewProcessTime.setValidator(Window.QtGui.QDoubleValidator())
 
 
-def updatememorybar(summemory):
-    ui.MemoryBar.setValue(summemory/Global_var.SumSpace)
+# 检测剩余内存总量
+def memorydetect():
+    beforememory = 0
+    while True:
+        sumfreememory = 0
+        for i in Global_var.FreePartition:
+            sumfreememory += i.size
+        if sumfreememory != beforememory:
+            beforememory = sumfreememory
+            try:
+                ui.MemoryBar.setValue(sumfreememory/Global_var.SumSpace)
+                print('updatesuccess')
+            except NameError:
+                print('updatefail')
 
 
 if __name__ == '__main__':     # mainThread
@@ -46,8 +58,8 @@ if __name__ == '__main__':     # mainThread
     t_detectwaitingprocessqueue.start()
     t_detectreadyprocessqueue.start()
     t_cputiming.start()
+    t_memorydetect = threading.Thread(target=memorydetect, args=(), daemon=True)
     t_memorydetect.start()
 
     Mainwindow.show()
     sys.exit(app.exec_())  # exe cycle/circulation
-
