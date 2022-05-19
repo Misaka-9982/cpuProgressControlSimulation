@@ -37,10 +37,34 @@ def memorydetect():
             sumusedmemory += i.size
         if sumusedmemory != beforememory:
             beforememory = sumusedmemory
-            ui.MemoryBar.setProperty('value', (sumusedmemory/Global_var.SumSpace)*100)
+            # 下行调用概率导致解释器崩溃
+            # ui.MemoryBar.setProperty('value', (sumusedmemory/Global_var.SumSpace)*100)
             # setvalue 是设置进度条步进步数的！！！！
             ui.MemoryBar.update()  # 不刷新控件会导致百分比数字重叠
             #print('updatesuccess')
+
+
+def uiupdatequeuedetect():
+    temp_W = Global_var.WaitingQueue
+    temp_Wlen = len(Global_var.WaitingQueue)
+    temp_R = Global_var.ReadyQueue
+    temp_Rlen = len(Global_var.ReadyQueue)
+    while True:
+        if len(Global_var.WaitingQueue) != temp_Wlen or Global_var.WaitingQueue != temp_W:
+            temp_W = Global_var.WaitingQueue
+            temp_Wlen = len(Global_var.WaitingQueue)
+            ui.WaitingQueue.setRowCount(temp_Wlen)
+            for n, i in enumerate(Global_var.WaitingQueue):
+                ui.WaitingQueue.setItem(n, 0, QTableWidgetItem(i.processname))
+                ui.WaitingQueue.setItem(n, 1, QTableWidgetItem(i.priority))
+                ui.WaitingQueue.setItem(n, 2, QTableWidgetItem(i.runningtime))
+                ui.WaitingQueue.setItem(n, 3, QTableWidgetItem(i.memory))
+            ui.WaitingQueue.viewport().update()
+        if len(Global_var.ReadyQueue) != temp_Rlen or Global_var.ReadyQueue != temp_R:
+            ui
+            temp_R = Global_var.ReadyQueue
+            temp_Rlen = len(Global_var.ReadyQueue)
+
 
 
 if __name__ == '__main__':     # mainThread
