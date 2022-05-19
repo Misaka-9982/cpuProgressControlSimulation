@@ -9,14 +9,14 @@ from Core import *
 def pressaddbutton():                                                                                       # 反斜杠续行
     if ui.NewProcessName.text() != '' and ui.NewProcessMemory.text() != '' and ui.NewProcessTime.text() \
             != '':
-        Global_var.WaitingQueue.append(PCB(ui.NewProcessName.text(), int(ui.NewProcessTime.text()),
-                                           int(ui.NewProcessMemory.text()), ui.NewProcessPriority.currentText()))
-        '''
+        Global_var.WaitingQueue.append(PCB(ui.NewProcessName.text(), float(ui.NewProcessTime.text()),
+                                           float(ui.NewProcessMemory.text()), ui.NewProcessPriority.currentText()))
+
         ui.NewProcessName.setText('')
         ui.NewProcessMemory.setText('')
         ui.NewProcessTime.setText('')
         ui.NewProcessPriority.setCurrentIndex(0)
-        '''
+
     else:
         # 报错弹窗
         print('error')
@@ -57,14 +57,20 @@ def uiupdatequeuedetect():
             for n, i in enumerate(Global_var.WaitingQueue):
                 ui.WaitingQueue.setItem(n, 0, QTableWidgetItem(i.processname))
                 ui.WaitingQueue.setItem(n, 1, QTableWidgetItem(i.priority))
-                ui.WaitingQueue.setItem(n, 2, QTableWidgetItem(i.runningtime))
-                ui.WaitingQueue.setItem(n, 3, QTableWidgetItem(i.memory))
+                print(i.runningtime)
+                ui.WaitingQueue.setItem(n, 2, QTableWidgetItem(int(i.runningtime)))
+                ui.WaitingQueue.setItem(n, 3, QTableWidgetItem(int(i.memory)))
             ui.WaitingQueue.viewport().update()
         if len(Global_var.ReadyQueue) != temp_Rlen or Global_var.ReadyQueue != temp_R:
-            ui
             temp_R = Global_var.ReadyQueue
             temp_Rlen = len(Global_var.ReadyQueue)
-
+            ui.ReadyQueue.setRowCount(temp_Rlen)
+            for n, i in enumerate(Global_var.ReadyQueue):
+                ui.ReadyQueue.setItem(n, 0, QTableWidgetItem(i.processname))
+                ui.ReadyQueue.setItem(n, 1, QTableWidgetItem(i.priority))
+                ui.ReadyQueue.setItem(n, 2, QTableWidgetItem(i.runningtime))
+                ui.ReadyQueue.setItem(n, 3, QTableWidgetItem(i.memory))
+            ui.ReadyQueue.viewport().update()
 
 
 if __name__ == '__main__':     # mainThread
@@ -85,6 +91,8 @@ if __name__ == '__main__':     # mainThread
     t_cputiming.start()
     t_memorydetect = threading.Thread(target=memorydetect, args=(), daemon=True)
     t_memorydetect.start()
+    t_uiupdatequeuedetect = threading.Thread(target=uiupdatequeuedetect, args=(), daemon=True)
+    t_uiupdatequeuedetect.start()
 
     Mainwindow.show()
     sys.exit(app.exec_())  # exe cycle/circulation
