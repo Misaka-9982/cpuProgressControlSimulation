@@ -57,9 +57,8 @@ def uiupdatequeuedetect():
             for n, i in enumerate(Global_var.WaitingQueue):
                 ui.WaitingQueue.setItem(n, 0, QTableWidgetItem(i.processname))
                 ui.WaitingQueue.setItem(n, 1, QTableWidgetItem(i.priority))
-                print(i.runningtime)
-                ui.WaitingQueue.setItem(n, 2, QTableWidgetItem(int(i.runningtime)))
-                ui.WaitingQueue.setItem(n, 3, QTableWidgetItem(int(i.memory)))
+                ui.WaitingQueue.setItem(n, 2, QTableWidgetItem(str(i.runningtime)))
+                ui.WaitingQueue.setItem(n, 3, QTableWidgetItem(str(i.memory)))
             ui.WaitingQueue.viewport().update()
         if len(Global_var.ReadyQueue) != temp_Rlen or Global_var.ReadyQueue != temp_R:
             temp_R = Global_var.ReadyQueue
@@ -68,8 +67,8 @@ def uiupdatequeuedetect():
             for n, i in enumerate(Global_var.ReadyQueue):
                 ui.ReadyQueue.setItem(n, 0, QTableWidgetItem(i.processname))
                 ui.ReadyQueue.setItem(n, 1, QTableWidgetItem(i.priority))
-                ui.ReadyQueue.setItem(n, 2, QTableWidgetItem(i.runningtime))
-                ui.ReadyQueue.setItem(n, 3, QTableWidgetItem(i.memory))
+                ui.ReadyQueue.setItem(n, 2, QTableWidgetItem(str(i.runningtime)))
+                ui.ReadyQueue.setItem(n, 3, QTableWidgetItem(str(i.memory)))
             ui.ReadyQueue.viewport().update()
 
 
