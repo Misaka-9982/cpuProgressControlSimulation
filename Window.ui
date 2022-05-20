@@ -467,7 +467,7 @@
         </spacer>
        </item>
        <item row="2" column="0" colspan="3">
-        <widget class="QTableWidget" name="RuningQueue">
+        <widget class="QTableWidget" name="RunningQueue">
          <property name="editTriggers">
           <set>QAbstractItemView::NoEditTriggers</set>
          </property>

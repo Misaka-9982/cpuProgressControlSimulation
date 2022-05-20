@@ -24,30 +24,34 @@ def detectwaitingprocessqueue():  # 检测后备队列有无可调入就绪队�
 
 
 def cputiming():  # cpu计时，要在检测就绪队列之后启动
-    if Global_var.Runningprocess is not None:
-        while Global_var.Runningprocess and Global_var.Runningprocess.runningtime > 0:
-            sleep(0.2)
-            Global_var.Runningprocess.runningtime -= 0.2
-        if Global_var.Runningprocess and Global_var.Runningprocess.runningtime <= 0:
+    while True:
+        if Global_var.Runningprocess is not None:
+            while Global_var.Runningprocess.runningtime > 0:
+                sleep(1)
+                Global_var.Runningprocess.runningtime -= 1
+                print('-1s')
+
             memoryrelease(Global_var.Runningprocess)
             Global_var.Runningprocess = None
 
 
 def detectreadyprocessqueue():  # 检测就绪队列有无需要抢占当前运行进程
-    while len(Global_var.ReadyQueue):
+    while True:
         try:
             Global_var.ReadyQueue.sort(reverse=True, key=lambda pcb: pcb.priority)
         except ValueError:
             print('valueerror_r')
-        if Global_var.Runningprocess is None:  # 当前无正在运行进程
-            Global_var.Runningprocess = Global_var.ReadyQueue[0]
-            Global_var.Runningprocess.status = 'Running'
-        elif Global_var.ReadyQueue[0].priority > Global_var.Runningprocess.priority:  # 有正在运行的进程
-            Global_var.Runningprocess.status = 'Ready'
-            Global_var.ReadyQueue.append(Global_var.Runningprocess)
-            Global_var.Runningprocess = Global_var.ReadyQueue[0]
-            Global_var.Runningprocess.status = 'Running'
-            Global_var.ReadyQueue.remove(0)
+        if len(Global_var.ReadyQueue):
+            if Global_var.Runningprocess is None:  # 当前无正在运行进程
+                Global_var.Runningprocess = Global_var.ReadyQueue[0]
+                Global_var.Runningprocess.status = 'Running'
+                Global_var.ReadyQueue.pop(0)
+            elif Global_var.ReadyQueue[0].priority > Global_var.Runningprocess.priority:  # 有正在运行的进程
+                Global_var.Runningprocess.status = 'Ready'
+                Global_var.ReadyQueue.append(Global_var.Runningprocess)
+                Global_var.Runningprocess = Global_var.ReadyQueue[0]
+                Global_var.Runningprocess.status = 'Running'
+                Global_var.ReadyQueue.remove(0)
 
 
 def hangingprocess():
