@@ -20,7 +20,6 @@ def pressaddbutton():                                                           
         ui.NewProcessMemory.setText('')
         ui.NewProcessTime.setText('')
         ui.NewProcessPriority.setCurrentIndex(0)
-        print(Global_var.WaitingQueue[0])
     else:
         # 报错弹窗
         print('error')
@@ -39,7 +38,11 @@ def memorydetect():
         sumusedmemory = 0
         for i in Global_var.UsedPartition:
             sumusedmemory += i.size
-        print('freememory:', Global_var.SumSpace-sumusedmemory)
+        print('freememory1:', Global_var.SumSpace-sumusedmemory)
+        y = 0
+        for x in Global_var.FreePartition:
+            y += x.size
+        print('freememory2', y)
         '''
         if sumusedmemory != beforememory:
             beforememory = sumusedmemory
@@ -69,7 +72,6 @@ def uiupdatequeuedetect():
             temp_Wlen = len(Global_var.WaitingQueue)
             ui.WaitingQueue.setRowCount(temp_Wlen)  # 先添加要更新的行数
             for n, i in enumerate(Global_var.WaitingQueue):
-                print('Waiting', i.processname)
                 ui.WaitingQueue.setItem(n, 0, QTableWidgetItem(i.processname))
                 ui.WaitingQueue.setItem(n, 1, QTableWidgetItem(i.priority))
                 ui.WaitingQueue.setItem(n, 2, QTableWidgetItem(str(i.runningtime)))
@@ -80,8 +82,6 @@ def uiupdatequeuedetect():
             if temp_R is not None:
                 for i in range(temp_Rlen):  # 修改前先置空表
                     ui.ReadyQueue.removeRow(i)
-            print('temp_R:',temp_R)
-            print('len_temp_R',temp_Rlen)
             temp_R = Global_var.ReadyQueue
             temp_Rlen = len(Global_var.ReadyQueue)
             ui.ReadyQueue.setRowCount(temp_Rlen)  # 先添加要更新的行数
