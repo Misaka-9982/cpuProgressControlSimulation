@@ -18,7 +18,6 @@ def ismemoryenough(process):
                 print(y)
             '''
             return True
-
     if freememory < process.memory:
         print(freememory)
         return False
