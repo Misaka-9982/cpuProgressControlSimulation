@@ -73,9 +73,10 @@ def uiupdatequeuedetect():
             ui.WaitingQueue.setRowCount(temp_Wlen)  # 先添加要更新的行数
             for n, i in enumerate(Global_var.WaitingQueue):
                 ui.WaitingQueue.setItem(n, 0, QTableWidgetItem(i.processname))
-                ui.WaitingQueue.setItem(n, 1, QTableWidgetItem(i.priority))
-                ui.WaitingQueue.setItem(n, 2, QTableWidgetItem(str(i.runningtime)))
-                ui.WaitingQueue.setItem(n, 3, QTableWidgetItem(str(i.memory)))
+                ui.WaitingQueue.setItem(n, 1, QTableWidgetItem(str(i.pid)))
+                ui.WaitingQueue.setItem(n, 2, QTableWidgetItem(i.priority))
+                ui.WaitingQueue.setItem(n, 3, QTableWidgetItem(str(i.runningtime)))
+                ui.WaitingQueue.setItem(n, 4, QTableWidgetItem(str(i.memory)))
             ui.WaitingQueue.viewport().update()
         # 刷新就绪队列ui
         if len(Global_var.ReadyQueue) != temp_Rlen or Global_var.ReadyQueue != temp_R:
@@ -87,9 +88,10 @@ def uiupdatequeuedetect():
             ui.ReadyQueue.setRowCount(temp_Rlen)  # 先添加要更新的行数
             for n, i in enumerate(Global_var.ReadyQueue):
                 ui.ReadyQueue.setItem(n, 0, QTableWidgetItem(i.processname))
-                ui.ReadyQueue.setItem(n, 1, QTableWidgetItem(i.priority))
-                ui.ReadyQueue.setItem(n, 2, QTableWidgetItem(str(i.runningtime)))
-                ui.ReadyQueue.setItem(n, 3, QTableWidgetItem(str(i.memory)))
+                ui.ReadyQueue.setItem(n, 1, QTableWidgetItem(str(i.pid)))
+                ui.ReadyQueue.setItem(n, 2, QTableWidgetItem(i.priority))
+                ui.ReadyQueue.setItem(n, 3, QTableWidgetItem(str(i.runningtime)))
+                ui.ReadyQueue.setItem(n, 4, QTableWidgetItem(str(i.memory)))
             ui.ReadyQueue.viewport().update()
         # 刷新运行中ui
         if Global_var.Runningprocess != temp_running:
@@ -98,15 +100,17 @@ def uiupdatequeuedetect():
             if temp_running is not None:
                 ui.RunningQueue.setRowCount(1)
                 ui.RunningQueue.setItem(0, 0, QTableWidgetItem(Global_var.Runningprocess.processname))
-                ui.RunningQueue.setItem(0, 1, QTableWidgetItem(str(Global_var.Runningprocess.runningtime)))
-                ui.RunningQueue.setItem(0, 2, QTableWidgetItem(str(Global_var.Runningprocess.memory)))
+                ui.RunningQueue.setItem(0, 1, QTableWidgetItem(str(Global_var.Runningprocess.pid)))
+                ui.RunningQueue.setItem(0, 2, QTableWidgetItem(Global_var.Runningprocess.priority))
+                ui.RunningQueue.setItem(0, 3, QTableWidgetItem(str(Global_var.Runningprocess.runningtime)))
+                ui.RunningQueue.setItem(0, 4, QTableWidgetItem(str(Global_var.Runningprocess.memory)))
             ui.RunningQueue.viewport().update()
             # 刷新运行时间ui
         try:  # 使用try except防止运行到if中间时runningprocess被释放报错
             if Global_var.Runningprocess is not None and \
                     Global_var.Runningprocess.runningtime != temp_runningtime:
                 temp_runningtime = Global_var.Runningprocess.runningtime
-                ui.RunningQueue.setItem(0, 1, QTableWidgetItem(str(temp_runningtime)))
+                ui.RunningQueue.setItem(0, 3, QTableWidgetItem(str(temp_runningtime)))
                 ui.RunningQueue.viewport().update()
         except AttributeError:
             print('Runningprocess has been removed')
