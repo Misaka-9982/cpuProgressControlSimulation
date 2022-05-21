@@ -25,6 +25,7 @@ def ismemoryenough(process):
 
 def memoryallocation(process):   # 分配前要先用调用检查，这里只分配不检查是否足够
     memorymerge()
+    allocatedmemory = 0
     for n, i in enumerate(Global_var.FreePartition):
         # condition_1防越界
         if process.memory <= i.size:
@@ -33,9 +34,11 @@ def memoryallocation(process):   # 分配前要先用调用检查，这里只分
 
             Global_var.FreePartition[n].start += process.memory
             Global_var.FreePartition[n].size -= process.memory
-            break
-        elif process.memory > i.size:
-            return False  # 检测内存是否足够时已经合并可用分区
+            for z in Global_var.UsedPartition:
+                allocatedmemory += z.size
+            print('allocatedmemory:', allocatedmemory)
+            return True
+    return False
 
 
 def memoryrelease(process):

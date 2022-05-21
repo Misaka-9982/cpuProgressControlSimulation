@@ -1,3 +1,6 @@
+import random
+
+
 class PCB:
     def __init__(self, processname, runningtime, memory, priority, status='Waiting'):
         self.processname = processname
@@ -9,10 +12,10 @@ class PCB:
 
 
 class MemoryPartition:
-    def __init__(self, start=0, size=1024, usingprocess=None):  # size单位为MB
+    def __init__(self, start=0, size=1024, usingprocesspid=None):  # size单位为MB
         self.start = start
         self.size = size
-        self.usingprocess = usingprocess  # 记录占用当前分区的进程名字，不是完整PCB
+        self.usingprocesspid = usingprocesspid  # 记录占用当前分区的进程名字，不是完整PCB
 
 '''
 class LinkList:

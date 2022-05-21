@@ -33,16 +33,15 @@ def edittextvaluecontrol():
 
 # 检测剩余内存总量
 def memorydetect():
-    beforememory = 0
+    beforememory = Global_var.SumSpace
     while True:
         sumusedmemory = 0
-        for i in Global_var.UsedPartition:
-            sumusedmemory += i.size
-        print('freememory1:', Global_var.SumSpace-sumusedmemory)
         y = 0
         for x in Global_var.FreePartition:
             y += x.size
-        print('freememory2', y)
+        if y != beforememory:
+            beforememory = y
+            print('freememory', y)
         '''
         if sumusedmemory != beforememory:
             beforememory = sumusedmemory
