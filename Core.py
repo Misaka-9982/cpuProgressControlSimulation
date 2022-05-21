@@ -16,12 +16,14 @@ def detectwaitingprocessqueue():  # 检测后备队列有无可调入就绪队�
                 # 相比就绪队列探测，等待队列探测多了一层对每个元素内存的判断循环，
                 # 使得sort频率远低于修改之前的就绪队列探测，故不会造成内存混乱导致ui闪烁
             for i in Global_var.WaitingQueue:
+                print(ismemoryenough(process=i))
                 if ismemoryenough(process=i) is True:
                     Global_var.ReadyQueue.append(i)
                     Global_var.isReadyQueueEmpty = False
                     Global_var.ReadyQueue[len(Global_var.ReadyQueue)-1].status = 'Ready'
                     memoryallocation(process=i)  # 分配内存
                     Global_var.WaitingQueue.remove(i)  # remove是移除指定元素，pop是指定下标的元素
+                    # 入就绪队列后，对就绪队列优先级排序
                     try:
                         Global_var.ReadyQueue.sort(reverse=True, key=lambda pcb: pcb.priority)
                     except ValueError:
