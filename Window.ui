@@ -100,7 +100,7 @@
     <property name="geometry">
      <rect>
       <x>430</x>
-      <y>280</y>
+      <y>380</y>
       <width>274</width>
       <height>233</height>
      </rect>
@@ -439,7 +439,7 @@
       <x>377</x>
       <y>50</y>
       <width>381</width>
-      <height>211</height>
+      <height>281</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -536,19 +536,6 @@
         </spacer>
        </item>
       </layout>
-     </item>
-     <item>
-      <widget class="QPushButton" name="HangButton">
-       <property name="font">
-        <font>
-         <family>微软雅黑</family>
-         <pointsize>11</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>挂起当前进程</string>
-       </property>
-      </widget>
      </item>
     </layout>
    </widget>
@@ -785,6 +772,25 @@
     </property>
     <property name="text">
      <string>重置系统</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="HangButton">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>340</y>
+      <width>379</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>挂起当前进程</string>
     </property>
    </widget>
   </widget>
