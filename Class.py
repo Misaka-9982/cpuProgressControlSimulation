@@ -1,4 +1,20 @@
 import random
+import Global_var
+
+
+def ispidlegal(pid):
+    if pid == Global_var.Runningprocess.pid:
+        return False
+    for i in Global_var.WaitingQueue:
+        if pid == i.pid:
+            return False
+    for i in Global_var.ReadyQueue:
+        if pid == i.pid:
+            return False
+    for i in Global_var.HangingQueue:
+        if pid == i.pid:
+            return False
+    return True
 
 
 class PCB:
@@ -8,7 +24,9 @@ class PCB:
         self.memory = memory                       # self为对象成员，不加self为类成员，对应java中不加和加static
         self.priority = priority
         self.status = status
-        # 是否加入独立进程/同步进程
+        self.pid = random.randint(0, 65536)
+        while not ispidlegal(self.pid):
+            self.pid = random.randint(0, 65536)
 
 
 class MemoryPartition:
