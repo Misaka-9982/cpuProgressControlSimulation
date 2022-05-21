@@ -35,6 +35,7 @@ def edittextvaluecontrol():
 def memorydetect():
     beforememory = Global_var.SumSpace
     while True:
+        sleep(2)
         sumusedmemory = 0
         y = 0
         for x in Global_var.FreePartition:

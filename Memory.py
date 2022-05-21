@@ -30,7 +30,7 @@ def memoryallocation(process):   # 分配前要先用调用检查，这里只分
         # condition_1防越界
         if process.memory <= i.size:
             Global_var.UsedPartition.append(Class.MemoryPartition(start=i.start, size=process.memory,
-                                                                  usingprocess=process.processname))
+                                                                  usingprocesspid=process.pid))
 
             Global_var.FreePartition[n].start += process.memory
             Global_var.FreePartition[n].size -= process.memory
@@ -44,8 +44,8 @@ def memoryallocation(process):   # 分配前要先用调用检查，这里只分
 def memoryrelease(process):
     totalrelease = 0
     for n, i in enumerate(Global_var.UsedPartition):
-        if i.usingprocess == process.processname:
-            Global_var.UsedPartition[n].usingprocess = None
+        if i.usingprocesspid == process.pid:
+            Global_var.UsedPartition[n].usingprocesspid = None
             Global_var.FreePartition.append(Global_var.UsedPartition[n])
             Global_var.UsedPartition.pop(n)
             totalrelease += i.size
