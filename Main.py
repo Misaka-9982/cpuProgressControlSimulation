@@ -12,6 +12,10 @@ def pressaddbutton():                                                           
         Global_var.WaitingQueue.append(PCB(ui.NewProcessName.text(), float(ui.NewProcessTime.text()),
                                            float(ui.NewProcessMemory.text()), ui.NewProcessPriority.currentText()))
 
+        try:
+            Global_var.WaitingQueue.sort(reverse=True, key=lambda pcb: pcb.priority)  # key传进函数的是列表中的每一个元素
+        except ValueError:
+            print('valueerror_w')
         ui.NewProcessName.setText('')
         ui.NewProcessMemory.setText('')
         ui.NewProcessTime.setText('')
@@ -35,6 +39,8 @@ def memorydetect():
         sumusedmemory = 0
         for i in Global_var.UsedPartition:
             sumusedmemory += i.size
+        print('freememory:', Global_var.SumSpace-sumusedmemory)
+        '''
         if sumusedmemory != beforememory:
             beforememory = sumusedmemory
             # 下行调用概率导致解释器崩溃
@@ -42,7 +48,7 @@ def memorydetect():
             # setvalue 是设置进度条步进步数的！！！！
             ui.MemoryBar.update()  # 不刷新控件会导致百分比数字重叠
             #print('updatesuccess')
-
+        '''
 
 def uiupdatequeuedetect():
     temp_W = None
@@ -122,8 +128,8 @@ if __name__ == '__main__':     # mainThread
     t_detectwaitingprocessqueue.start()
     t_detectreadyprocessqueue.start()
     t_cputiming.start()
-    #t_memorydetect = threading.Thread(target=memorydetect, args=(), daemon=True)
-    #t_memorydetect.start()
+    t_memorydetect = threading.Thread(target=memorydetect, args=(), daemon=True)
+    t_memorydetect.start()
     t_uiupdatequeuedetect = threading.Thread(target=uiupdatequeuedetect, args=(), daemon=True)
     t_uiupdatequeuedetect.start()
 

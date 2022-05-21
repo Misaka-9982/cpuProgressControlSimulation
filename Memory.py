@@ -19,7 +19,7 @@ def ismemoryenough(process):
             '''
             return True
     if freememory < process.memory:
-        print(freememory)
+        #print(freememory)
         return False
 
 
