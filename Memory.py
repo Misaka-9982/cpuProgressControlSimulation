@@ -5,7 +5,8 @@ from Class import *
 
 def ismemoryenough(process):
     freememory = 0
-    #memorymerge()  # 检测前就执行一次内存合并，简化后续分配步骤，提高效率  # 合并可能本身比较费时间？# 如果要把这步拿出去，需要修改内存分配逻辑
+    # memorymerge()  # 检测前就执行一次内存合并，简化后续分配步骤，提高效率  # 合并可能本身比较费时间？# 如果要把这步拿出去，需要修改内存分配逻辑
+    # 合并移动到分配函数中，该函数只负责检查，提高效率
     for i in Global_var.FreePartition:
         freememory += i.size
         if freememory >= process.memory:
@@ -39,7 +40,7 @@ def memoryallocation(process):   # 分配前要先用调用检查，这里只分
 
 def memoryrelease(process):
     for n, i in enumerate(Global_var.UsedPartition):
-        if i.usingprocess == process.name:
+        if i.usingprocess == process.processname:
             Global_var.UsedPartition[n].usingprocess = None
             Global_var.FreePartition.append(i)
             Global_var.UsedPartition.pop(n)

@@ -16,7 +16,7 @@ def pressaddbutton():                                                           
         ui.NewProcessMemory.setText('')
         ui.NewProcessTime.setText('')
         ui.NewProcessPriority.setCurrentIndex(0)
-
+        print(Global_var.WaitingQueue[0])
     else:
         # 报错弹窗
         print('error')
@@ -45,19 +45,20 @@ def memorydetect():
 
 
 def uiupdatequeuedetect():
-    temp_W = Global_var.WaitingQueue
-    temp_Wlen = len(Global_var.WaitingQueue)
-    temp_R = Global_var.ReadyQueue
-    temp_Rlen = len(Global_var.ReadyQueue)
-    temp_running = Global_var.Runningprocess
+    temp_W = None
+    temp_Wlen = None
+    temp_R = None
+    temp_Rlen = None
+    temp_running = None
     temp_runningtime = None
     if Global_var.Runningprocess is not None:
         temp_runningtime = Global_var.Runningprocess.runningtime
     while True:
         # 刷新等待队列ui
         if len(Global_var.WaitingQueue) != temp_Wlen or Global_var.WaitingQueue != temp_W:
-            for i in range(temp_Wlen):  # 修改前先置空表
-                ui.WaitingQueue.removeRow(i)
+            if temp_W is not None:
+                for i in range(temp_Wlen):  # 修改前先置空表
+                    ui.WaitingQueue.removeRow(i)
             temp_W = Global_var.WaitingQueue
             temp_Wlen = len(Global_var.WaitingQueue)
             ui.WaitingQueue.setRowCount(temp_Wlen)  # 先添加要更新的行数
@@ -70,8 +71,11 @@ def uiupdatequeuedetect():
             ui.WaitingQueue.viewport().update()
         # 刷新就绪队列ui
         if len(Global_var.ReadyQueue) != temp_Rlen or Global_var.ReadyQueue != temp_R:
-            for i in range(temp_Rlen):  # 修改前先置空表
-                ui.ReadyQueue.removeRow(i)
+            if temp_R is not None:
+                for i in range(temp_Rlen):  # 修改前先置空表
+                    ui.ReadyQueue.removeRow(i)
+            print('temp_R:',temp_R)
+            print('len_temp_R',temp_Rlen)
             temp_R = Global_var.ReadyQueue
             temp_Rlen = len(Global_var.ReadyQueue)
             ui.ReadyQueue.setRowCount(temp_Rlen)  # 先添加要更新的行数
@@ -85,12 +89,14 @@ def uiupdatequeuedetect():
         if Global_var.Runningprocess != temp_running:
             ui.RunningQueue.removeRow(0)
             temp_running = Global_var.Runningprocess
-            ui.RunningQueue.setRowCount(1)
-            ui.RunningQueue.setItem(0, 0, QTableWidgetItem(Global_var.Runningprocess.processname))
-            ui.RunningQueue.setItem(0, 1, QTableWidgetItem(str(Global_var.Runningprocess.runningtime)))
-            ui.RunningQueue.setItem(0, 2, QTableWidgetItem(str(Global_var.Runningprocess.memory)))
+            if temp_running is not None:
+                ui.RunningQueue.setRowCount(1)
+                ui.RunningQueue.setItem(0, 0, QTableWidgetItem(Global_var.Runningprocess.processname))
+                ui.RunningQueue.setItem(0, 1, QTableWidgetItem(str(Global_var.Runningprocess.runningtime)))
+                ui.RunningQueue.setItem(0, 2, QTableWidgetItem(str(Global_var.Runningprocess.memory)))
             ui.RunningQueue.viewport().update()
         # 刷新运行时间ui
+
         if Global_var.Runningprocess is not None and Global_var.Runningprocess.runningtime != temp_runningtime:
             temp_runningtime = Global_var.Runningprocess.runningtime
             ui.RunningQueue.setItem(0, 1, QTableWidgetItem(str(temp_runningtime)))

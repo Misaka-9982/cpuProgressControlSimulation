@@ -51,7 +51,7 @@ def detectreadyprocessqueue():  # 检测就绪队列有无需要抢占当前运�
                 Global_var.ReadyQueue.append(Global_var.Runningprocess)
                 Global_var.Runningprocess = Global_var.ReadyQueue[0]
                 Global_var.Runningprocess.status = 'Running'
-                Global_var.ReadyQueue.remove(0)
+                Global_var.ReadyQueue.pop(0)
 
 
 def hangingprocess():
