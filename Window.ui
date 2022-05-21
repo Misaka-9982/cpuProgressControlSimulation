@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1124</width>
+    <width>1134</width>
     <height>854</height>
    </rect>
   </property>
@@ -312,9 +312,9 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>10</x>
       <y>50</y>
-      <width>321</width>
+      <width>341</width>
       <height>601</height>
      </rect>
     </property>
@@ -372,13 +372,13 @@
           <number>0</number>
          </property>
          <property name="columnCount">
-          <number>4</number>
+          <number>5</number>
          </property>
          <attribute name="horizontalHeaderVisible">
           <bool>true</bool>
          </attribute>
          <attribute name="horizontalHeaderDefaultSectionSize">
-          <number>75</number>
+          <number>67</number>
          </attribute>
          <attribute name="verticalHeaderCascadingSectionResizes">
           <bool>false</bool>
@@ -386,6 +386,11 @@
          <column>
           <property name="text">
            <string>进程名</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>PID</string>
           </property>
          </column>
          <column>
@@ -478,13 +483,13 @@
           <number>1</number>
          </property>
          <property name="columnCount">
-          <number>3</number>
+          <number>5</number>
          </property>
          <attribute name="horizontalHeaderVisible">
           <bool>true</bool>
          </attribute>
          <attribute name="horizontalHeaderDefaultSectionSize">
-          <number>125</number>
+          <number>75</number>
          </attribute>
          <attribute name="verticalHeaderVisible">
           <bool>false</bool>
@@ -493,6 +498,16 @@
          <column>
           <property name="text">
            <string>进程名</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>PID</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>优先级</string>
           </property>
          </column>
          <column>
@@ -542,7 +557,7 @@
      <rect>
       <x>780</x>
       <y>50</y>
-      <width>312</width>
+      <width>341</width>
       <height>601</height>
      </rect>
     </property>
@@ -563,14 +578,19 @@
             <number>0</number>
            </property>
            <property name="columnCount">
-            <number>4</number>
+            <number>5</number>
            </property>
            <attribute name="horizontalHeaderDefaultSectionSize">
-            <number>75</number>
+            <number>66</number>
            </attribute>
            <column>
             <property name="text">
              <string>进程名</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>PID</string>
             </property>
            </column>
            <column>
@@ -668,11 +688,16 @@
             <enum>QAbstractItemView::SelectRows</enum>
            </property>
            <attribute name="horizontalHeaderDefaultSectionSize">
-            <number>75</number>
+            <number>66</number>
            </attribute>
            <column>
             <property name="text">
              <string>进程名</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>PID</string>
             </property>
            </column>
            <column>
@@ -768,7 +793,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1124</width>
+     <width>1134</width>
      <height>26</height>
     </rect>
    </property>
