@@ -13,13 +13,19 @@ def detectwaitingprocessqueue():  # 检测后备队列有无可调入就绪队�
                 Global_var.WaitingQueue.sort(reverse=True, key=lambda pcb: pcb.priority)  # key传进函数的是列表中的每一个元素
             except ValueError:
                 print('valueerror_w')
+                # 相比就绪队列探测，等待队列探测多了一层对每个元素内存的判断循环，
+                # 使得sort频率远低于修改之前的就绪队列探测，故不会造成内存混乱导致ui闪烁
             for i in Global_var.WaitingQueue:
-                print(ismemoryenough(i))
                 if ismemoryenough(process=i) is True:
                     Global_var.ReadyQueue.append(i)
+                    Global_var.isReadyQueueEmpty = False
                     Global_var.ReadyQueue[len(Global_var.ReadyQueue)-1].status = 'Ready'
                     memoryallocation(process=i)  # 分配内存
                     Global_var.WaitingQueue.remove(i)  # remove是移除指定元素，pop是指定下标的元素
+                    try:
+                        Global_var.ReadyQueue.sort(reverse=True, key=lambda pcb: pcb.priority)
+                    except ValueError:
+                        print('valueerror_r')
         #print(Global_var.ReadyQueue)
 
 
@@ -29,7 +35,7 @@ def cputiming():  # cpu计时，要在检测就绪队列之后启动
             while Global_var.Runningprocess.runningtime > 0:
                 sleep(1)
                 Global_var.Runningprocess.runningtime -= 1
-                print('-1s')
+                # print('-1s')
 
             memoryrelease(Global_var.Runningprocess)
             Global_var.Runningprocess = None
@@ -37,21 +43,25 @@ def cputiming():  # cpu计时，要在检测就绪队列之后启动
 
 def detectreadyprocessqueue():  # 检测就绪队列有无需要抢占当前运行进程
     while True:
-        try:
-            Global_var.ReadyQueue.sort(reverse=True, key=lambda pcb: pcb.priority)
-        except ValueError:
-            print('valueerror_r')
+        # 反复排序会导致ui闪烁，将对ReadyQueue的排序移动到每次对其操作后
         if len(Global_var.ReadyQueue):
-            if Global_var.Runningprocess is None:  # 当前无正在运行进程
-                Global_var.Runningprocess = Global_var.ReadyQueue[0]
-                Global_var.Runningprocess.status = 'Running'
-                Global_var.ReadyQueue.pop(0)
-            elif Global_var.ReadyQueue[0].priority > Global_var.Runningprocess.priority:  # 有正在运行的进程
-                Global_var.Runningprocess.status = 'Ready'
-                Global_var.ReadyQueue.append(Global_var.Runningprocess)
-                Global_var.Runningprocess = Global_var.ReadyQueue[0]
-                Global_var.Runningprocess.status = 'Running'
-                Global_var.ReadyQueue.pop(0)
+            try:
+                if Global_var.Runningprocess is None:  # 当前无正在运行进程
+                    Global_var.Runningprocess = Global_var.ReadyQueue[0]
+                    Global_var.Runningprocess.status = 'Running'
+                    Global_var.ReadyQueue.pop(0)
+                elif Global_var.ReadyQueue[0].priority > Global_var.Runningprocess.priority:  # 有正在运行的进程
+                    Global_var.Runningprocess.status = 'Ready'
+                    Global_var.ReadyQueue.append(Global_var.Runningprocess)
+                    Global_var.Runningprocess = Global_var.ReadyQueue[0]
+                    Global_var.Runningprocess.status = 'Running'
+                    Global_var.ReadyQueue.pop(0)
+                    try:
+                        Global_var.ReadyQueue.sort(reverse=True, key=lambda pcb: pcb.priority)
+                    except ValueError:
+                        print('valueerror_r')
+            except AttributeError:
+                print('Runningprocess has been removed')
 
 
 def hangingprocess():

@@ -95,12 +95,15 @@ def uiupdatequeuedetect():
                 ui.RunningQueue.setItem(0, 1, QTableWidgetItem(str(Global_var.Runningprocess.runningtime)))
                 ui.RunningQueue.setItem(0, 2, QTableWidgetItem(str(Global_var.Runningprocess.memory)))
             ui.RunningQueue.viewport().update()
-        # 刷新运行时间ui
-
-        if Global_var.Runningprocess is not None and Global_var.Runningprocess.runningtime != temp_runningtime:
-            temp_runningtime = Global_var.Runningprocess.runningtime
-            ui.RunningQueue.setItem(0, 1, QTableWidgetItem(str(temp_runningtime)))
-            ui.RunningQueue.viewport().update()
+            # 刷新运行时间ui
+        try:  # 使用try except防止运行到if中间时runningprocess被释放报错
+            if Global_var.Runningprocess is not None and \
+                    Global_var.Runningprocess.runningtime != temp_runningtime:
+                temp_runningtime = Global_var.Runningprocess.runningtime
+                ui.RunningQueue.setItem(0, 1, QTableWidgetItem(str(temp_runningtime)))
+                ui.RunningQueue.viewport().update()
+        except AttributeError:
+            print('Runningprocess has been removed')
 
 
 if __name__ == '__main__':     # mainThread
