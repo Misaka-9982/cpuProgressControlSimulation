@@ -1,6 +1,5 @@
 from PyQt5.QtWidgets import QMainWindow, QApplication, QTableWidgetItem
 import sys
-
 import Global_var
 import Window
 from MultiThread import *
