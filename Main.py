@@ -49,7 +49,7 @@ def memorydetect():
 
 def getdeleterunningprocess():
     try:
-        pid = ui.RunningQueue.selectedItems()[1]
+        pid = ui.RunningQueue.selectedItems()[1].text()
         deleterunningprocess(int(pid))
     except IndexError:
         print('None was selected')
@@ -95,7 +95,7 @@ def uiupdatequeuedetect():
     while True:
         # 刷新等待队列ui
         if UiUpdateFlag.waitingqueue:
-            sleep(0.5)  # 防止执行过快导致未能从ui移除
+            sleep(0.5)  # 防止等待队列执行过快导致未能从ui移除
             for i in range(ui.WaitingQueue.rowCount()):  # 修改前先置空表
                 ui.WaitingQueue.removeRow(i)
             ui.WaitingQueue.setRowCount(len(Global_var.WaitingQueue))  # 先添加要更新的行数

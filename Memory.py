@@ -49,6 +49,7 @@ def memoryrelease(process):
             Global_var.FreePartition.append(Global_var.UsedPartition[n])
             Global_var.UsedPartition.pop(n)
             totalrelease += i.size
+    memorymerge()
     print('totalrelease:', totalrelease)
 
 

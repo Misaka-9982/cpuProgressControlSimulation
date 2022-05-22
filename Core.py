@@ -129,16 +129,15 @@ def deletewaitprocess(pid):
 
 
 def reset():
-    for n, i in enumerate(Global_var.WaitingQueue):
-        Global_var.WaitingQueue.pop(n)
+    Global_var.WaitingQueue = []
     for n, i in enumerate(Global_var.ReadyQueue):
         memoryrelease(Global_var.ReadyQueue[n])
-        Global_var.ReadyQueue.pop(n)
+    Global_var.ReadyQueue = []
     for n, i in enumerate(Global_var.Runningprocess):
         memoryrelease(Global_var.Runningprocess[n])
-        Global_var.Runningprocess.pop(n)
-    for n, i in enumerate(Global_var.HangingQueue):
-        Global_var.HangingQueue.pop(n)
+    Global_var.Runningprocess = []
+    Global_var.HangingQueue = []
+    memorymerge()
     UiUpdateFlag.runningprocess = True
     UiUpdateFlag.waitingqueue = True
     UiUpdateFlag.readyqueue = True
