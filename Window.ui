@@ -439,7 +439,7 @@
       <x>377</x>
       <y>50</y>
       <width>381</width>
-      <height>281</height>
+      <height>251</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -735,7 +735,7 @@
       </layout>
      </item>
      <item row="1" column="0">
-      <widget class="QPushButton" name="DeleteWaitingProgressButton_2">
+      <widget class="QPushButton" name="DeleteWaitingProgressButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -790,7 +790,26 @@
      </font>
     </property>
     <property name="text">
-     <string>挂起当前进程</string>
+     <string>挂起已选进程</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="DeleteRunningProcess">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>300</y>
+      <width>379</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>终止已选正在运行进程</string>
     </property>
    </widget>
   </widget>

@@ -21,6 +21,7 @@ def pressaddbutton():                                                           
         ui.NewProcessMemory.setText('')
         ui.NewProcessTime.setText('')
         ui.NewProcessPriority.setCurrentIndex(0)
+        UiUpdateFlag.waitingqueue = True
     else:
         # 报错弹窗
         print('error')
@@ -44,22 +45,58 @@ def memorydetect():
         if y != beforememory:
             beforememory = y
             print('freememory', y)
-        '''
-        if sumusedmemory != beforememory:
-            beforememory = sumusedmemory
-            # 下行调用概率导致解释器崩溃
-            ui.MemoryBar.setProperty('value', (sumusedmemory/Global_var.SumSpace)*100)
-            # setvalue 是设置进度条步进步数的！！！！
-            ui.MemoryBar.update()  # 不刷新控件会导致百分比数字重叠
-            #print('updatesuccess')
-        '''
+
+
+def getdeleterunningprocess():
+    try:
+        pid = ui.RunningQueue.selectedItems()[1]
+        deleterunningprocess(int(pid))
+    except IndexError:
+        print('None was selected')
+
+
+def getdeletereadyprocess():
+    try:
+        pid = ui.ReadyQueue.selectedItems()[1].text()
+        deletereadyprocess(int(pid))  # 这里记得要转换类型str->int！！！！
+    except IndexError:
+        print('None was selected')
+
+
+def getdeletewaitprocess():
+    try:
+        pid = ui.WaitingQueue.selectedItems()[1].text()
+        deletewaitprocess(int(pid))
+    except IndexError:
+        print('None was selected')
+
+
+def gethangingprocess():
+    try:
+        pid = ui.RunningQueue.selectedItems()[1].text()
+        hangingprocess(int(pid))
+    except IndexError:
+        print('None was selected')
+
+
+def getunhangingprocess():
+    try:
+        pid = ui.HangingQueue.selectedItems()[1].text()
+        unhangingprocess(int(pid))
+    except IndexError:
+        print('None was selected')
+
+
+def getreset():
+    reset()
 
 
 def uiupdatequeuedetect():
     while True:
         # 刷新等待队列ui
         if UiUpdateFlag.waitingqueue:
-            for i in range(ui.WaitingQueue.columnCount()):  # 修改前先置空表
+            sleep(0.5)  # 防止执行过快导致未能从ui移除
+            for i in range(ui.WaitingQueue.rowCount()):  # 修改前先置空表
                 ui.WaitingQueue.removeRow(i)
             ui.WaitingQueue.setRowCount(len(Global_var.WaitingQueue))  # 先添加要更新的行数
             for n, i in enumerate(Global_var.WaitingQueue):
@@ -68,12 +105,13 @@ def uiupdatequeuedetect():
                 ui.WaitingQueue.setItem(n, 2, QTableWidgetItem(i.priority))
                 ui.WaitingQueue.setItem(n, 3, QTableWidgetItem(str(i.runningtime)))
                 ui.WaitingQueue.setItem(n, 4, QTableWidgetItem(str(i.memory)))
+            ui.WaitingQueue.viewport().update()  # 刷新两次防止出现因为多线程调度导致刷新不完全的情况
             ui.WaitingQueue.viewport().update()
             UiUpdateFlag.waitingqueue = False
 
         # 刷新就绪队列ui
         if UiUpdateFlag.readyqueue:
-            for i in range(ui.ReadyQueue.columnCount()):  # 修改前先置空表
+            for i in range(ui.ReadyQueue.rowCount()):  # 修改前先置空表
                 ui.ReadyQueue.removeRow(i)
             ui.ReadyQueue.setRowCount(len(Global_var.ReadyQueue))  # 先添加要更新的行数
             for n, i in enumerate(Global_var.ReadyQueue):
@@ -83,10 +121,12 @@ def uiupdatequeuedetect():
                 ui.ReadyQueue.setItem(n, 3, QTableWidgetItem(str(i.runningtime)))
                 ui.ReadyQueue.setItem(n, 4, QTableWidgetItem(str(i.memory)))
             ui.ReadyQueue.viewport().update()
+            ui.ReadyQueue.viewport().update()
             UiUpdateFlag.readyqueue = False
+
         # 刷新运行中ui
         if UiUpdateFlag.runningprocess:
-            for i in range(ui.RunningQueue.columnCount()):
+            for i in range(ui.RunningQueue.rowCount()):
                 ui.RunningQueue.removeRow(i)
             ui.RunningQueue.setRowCount(len(Global_var.Runningprocess))
             for n, i in enumerate(Global_var.Runningprocess):
@@ -96,14 +136,31 @@ def uiupdatequeuedetect():
                 ui.RunningQueue.setItem(n, 3, QTableWidgetItem(str(i.runningtime)))
                 ui.RunningQueue.setItem(n, 4, QTableWidgetItem(str(i.memory)))
             ui.RunningQueue.viewport().update()
+            ui.RunningQueue.viewport().update()
             UiUpdateFlag.runningprocess = False
+
             # 刷新运行时间ui
         if UiUpdateFlag.runningprocesstime:
             for n, i in enumerate(Global_var.Runningprocess):
                 ui.RunningQueue.setItem(n, 3, QTableWidgetItem(str(Global_var.Runningprocess[n].runningtime)))
             ui.RunningQueue.viewport().update()
+            ui.RunningQueue.viewport().update()
             UiUpdateFlag.runningprocesstime = False
 
+        # 刷新挂起队列UI
+        if UiUpdateFlag.hangingqueue:
+            for i in range(ui.HangingQueue.rowCount()):
+                ui.HangingQueue.removeRow(i)
+            ui.HangingQueue.setRowCount(len(Global_var.HangingQueue))
+            for n, i in enumerate(Global_var.HangingQueue):
+                ui.HangingQueue.setItem(n, 0, QTableWidgetItem(i.processname))
+                ui.HangingQueue.setItem(n, 1, QTableWidgetItem(str(i.pid)))
+                ui.HangingQueue.setItem(n, 2, QTableWidgetItem(i.priority))
+                ui.HangingQueue.setItem(n, 3, QTableWidgetItem(str(i.runningtime)))
+                ui.HangingQueue.setItem(n, 4, QTableWidgetItem(str(i.memory)))
+            ui.HangingQueue.viewport().update()
+            ui.HangingQueue.viewport().update()
+            UiUpdateFlag.hangingqueue = False
 
 
 if __name__ == '__main__':     # mainThread
@@ -116,7 +173,13 @@ if __name__ == '__main__':     # mainThread
     edittextvaluecontrol()
 
     # 绑定槽函数
-    ui.AddButton.clicked.connect(pressaddbutton)
+    ui.AddButton.clicked.connect(pressaddbutton)  # 添加
+    ui.DeleteReadyProgressButton.clicked.connect(getdeletereadyprocess)  # 删除就绪
+    ui.DeleteWaitingProgressButton.clicked.connect(getdeletewaitprocess)  # 删除后备
+    ui.DeleteRunningProcess.clicked.connect(getdeleterunningprocess)  # 删除运行中
+    ui.HangButton.clicked.connect(gethangingprocess)  # 挂起
+    ui.UnhangButton.clicked.connect(getunhangingprocess)  # 解挂
+    ui.ResetButton.clicked.connect(getreset)  # 重置
 
     # 创建线程
     t_detectwaitingprocessqueue.start()
