@@ -15,8 +15,8 @@ class PCB:
 
     @staticmethod
     def ispidlegal(pid):
-        if Global_var.Runningprocess is not None:
-            if pid == Global_var.Runningprocess.pid:
+        for i in Global_var.Runningprocess:
+            if pid == i.pid:
                 return False
         for i in Global_var.WaitingQueue:
             if pid == i.pid:
