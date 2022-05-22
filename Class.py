@@ -36,6 +36,14 @@ class MemoryPartition:
         self.size = size
         self.usingprocesspid = usingprocesspid  # 记录占用当前分区的进程名字，不是完整PCB
 
+
+class UiUpdateFlag:
+    waitingqueue = False
+    readyqueue = False
+    runningprocess = False
+    runningprocesstime = False
+    hangingqueue = False
+
 '''
 class LinkList:
     def __init__(self, data, nextnode):

@@ -1,5 +1,7 @@
 from PyQt5.QtWidgets import QMainWindow, QApplication, QTableWidgetItem
 import sys
+
+import Global_var
 import Window
 from MultiThread import *
 from Core import *
@@ -53,28 +55,14 @@ def memorydetect():
             #print('updatesuccess')
         '''
 
+
 def uiupdatequeuedetect():
-    temp_W = None
-    temp_Wlen = None
-    temp_R = None
-    temp_Rlen = None
-    temp_runninglen = None
-    temp_runningtime = [None] * 3  # 长度为3的空表
-    '''
-    if len(Global_var.Runningprocess) != 0:  # 该条件防止数组越界
-        temp_running = Global_var.Runningprocess
-        for n, i in enumerate(Global_var.Runningprocess):
-            temp_runningtime[n] = i.runningtime
-    '''
     while True:
         # 刷新等待队列ui
-        if len(Global_var.WaitingQueue) != temp_Wlen or Global_var.WaitingQueue != temp_W:
-            if temp_W is not None:
-                for i in range(temp_Wlen):  # 修改前先置空表
-                    ui.WaitingQueue.removeRow(i)
-            temp_W = Global_var.WaitingQueue
-            temp_Wlen = len(Global_var.WaitingQueue)
-            ui.WaitingQueue.setRowCount(temp_Wlen)  # 先添加要更新的行数
+        if UiUpdateFlag.waitingqueue:
+            for i in range(ui.WaitingQueue.columnCount()):  # 修改前先置空表
+                ui.WaitingQueue.removeRow(i)
+            ui.WaitingQueue.setRowCount(len(Global_var.WaitingQueue))  # 先添加要更新的行数
             for n, i in enumerate(Global_var.WaitingQueue):
                 ui.WaitingQueue.setItem(n, 0, QTableWidgetItem(i.processname))
                 ui.WaitingQueue.setItem(n, 1, QTableWidgetItem(str(i.pid)))
@@ -82,16 +70,13 @@ def uiupdatequeuedetect():
                 ui.WaitingQueue.setItem(n, 3, QTableWidgetItem(str(i.runningtime)))
                 ui.WaitingQueue.setItem(n, 4, QTableWidgetItem(str(i.memory)))
             ui.WaitingQueue.viewport().update()
+            UiUpdateFlag.waitingqueue = False
+
         # 刷新就绪队列ui
-        # 这里condition2判断不严谨，深度拷贝之后实际上只比较地址，地址不同即变量不同，实际上主要靠condition1判断
-        # 基本上每次变化都伴随长度变化，能被congdition1检测到
-        if len(Global_var.ReadyQueue) != temp_Rlen or Global_var.ReadyQueue != temp_R:
-            if temp_R is not None:
-                for i in range(temp_Rlen):  # 修改前先置空表
-                    ui.ReadyQueue.removeRow(i)
-            temp_R = Global_var.ReadyQueue
-            temp_Rlen = len(Global_var.ReadyQueue)
-            ui.ReadyQueue.setRowCount(temp_Rlen)  # 先添加要更新的行数
+        if UiUpdateFlag.readyqueue:
+            for i in range(ui.ReadyQueue.columnCount()):  # 修改前先置空表
+                ui.ReadyQueue.removeRow(i)
+            ui.ReadyQueue.setRowCount(len(Global_var.ReadyQueue))  # 先添加要更新的行数
             for n, i in enumerate(Global_var.ReadyQueue):
                 ui.ReadyQueue.setItem(n, 0, QTableWidgetItem(i.processname))
                 ui.ReadyQueue.setItem(n, 1, QTableWidgetItem(str(i.pid)))
@@ -99,29 +84,27 @@ def uiupdatequeuedetect():
                 ui.ReadyQueue.setItem(n, 3, QTableWidgetItem(str(i.runningtime)))
                 ui.ReadyQueue.setItem(n, 4, QTableWidgetItem(str(i.memory)))
             ui.ReadyQueue.viewport().update()
+            UiUpdateFlag.readyqueue = False
         # 刷新运行中ui
-        if len(Global_var.Runningprocess) != temp_runninglen:
-            ui.RunningQueue.removeRow(0)
-            temp_runninglen = len(Global_var.Runningprocess)  # copy.deepcopy可以防止共享引用问题
-            if temp_runninglen != 0:
-                ui.RunningQueue.setRowCount(temp_runninglen)
-                for n, i in enumerate(Global_var.Runningprocess):
-                    ui.RunningQueue.setItem(n, 0, QTableWidgetItem(i.processname))
-                    ui.RunningQueue.setItem(n, 1, QTableWidgetItem(str(i.pid)))
-                    ui.RunningQueue.setItem(n, 2, QTableWidgetItem(i.priority))
-                    ui.RunningQueue.setItem(n, 3, QTableWidgetItem(str(i.runningtime)))
-                    ui.RunningQueue.setItem(n, 4, QTableWidgetItem(str(i.memory)))
-            ui.RunningQueue.viewport().update()
-
-            # 刷新运行时间ui
-        try:  # 使用try except防止运行到if中间时runningprocess被释放报错
+        if UiUpdateFlag.runningprocess:
+            for i in range(ui.RunningQueue.columnCount()):
+                ui.RunningQueue.removeRow(i)
+            ui.RunningQueue.setRowCount(len(Global_var.Runningprocess))
             for n, i in enumerate(Global_var.Runningprocess):
-                if i is not None and i.runningtime != temp_runningtime[n]:
-                    temp_runningtime[n] = i.runningtime
-                    ui.RunningQueue.setItem(n, 3, QTableWidgetItem(str(temp_runningtime[n])))
-                    ui.RunningQueue.viewport().update()
-        except AttributeError:
-            print('Runningprocess has been removed')
+                ui.RunningQueue.setItem(n, 0, QTableWidgetItem(i.processname))
+                ui.RunningQueue.setItem(n, 1, QTableWidgetItem(str(i.pid)))
+                ui.RunningQueue.setItem(n, 2, QTableWidgetItem(i.priority))
+                ui.RunningQueue.setItem(n, 3, QTableWidgetItem(str(i.runningtime)))
+                ui.RunningQueue.setItem(n, 4, QTableWidgetItem(str(i.memory)))
+            ui.RunningQueue.viewport().update()
+            UiUpdateFlag.runningprocess = False
+            # 刷新运行时间ui
+        if UiUpdateFlag.runningprocesstime:
+            for n, i in enumerate(Global_var.Runningprocess):
+                ui.RunningQueue.setItem(n, 3, QTableWidgetItem(str(Global_var.Runningprocess[n].runningtime)))
+            ui.RunningQueue.viewport().update()
+            UiUpdateFlag.runningprocesstime = False
+
 
 
 if __name__ == '__main__':     # mainThread
