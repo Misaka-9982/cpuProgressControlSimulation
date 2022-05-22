@@ -2,22 +2,6 @@ import random
 import Global_var
 
 
-def ispidlegal(pid):
-    if Global_var.Runningprocess is not None:
-        if pid == Global_var.Runningprocess.pid:
-            return False
-    for i in Global_var.WaitingQueue:
-        if pid == i.pid:
-            return False
-    for i in Global_var.ReadyQueue:
-        if pid == i.pid:
-            return False
-    for i in Global_var.HangingQueue:
-        if pid == i.pid:
-            return False
-    return True
-
-
 class PCB:
     def __init__(self, processname, runningtime, memory, priority, status='Waiting'):
         self.processname = processname
@@ -26,8 +10,24 @@ class PCB:
         self.priority = priority
         self.status = status
         self.pid = random.randint(0, 65536)
-        while not ispidlegal(self.pid):
+        while not self.ispidlegal(self.pid):
             self.pid = random.randint(0, 65536)
+
+    @staticmethod
+    def ispidlegal(pid):
+        if Global_var.Runningprocess is not None:
+            if pid == Global_var.Runningprocess.pid:
+                return False
+        for i in Global_var.WaitingQueue:
+            if pid == i.pid:
+                return False
+        for i in Global_var.ReadyQueue:
+            if pid == i.pid:
+                return False
+        for i in Global_var.HangingQueue:
+            if pid == i.pid:
+                return False
+        return True
 
 
 class MemoryPartition:
