@@ -15,6 +15,7 @@ def detectwaitingprocessqueue():  # 检测后备队列有无可调入就绪队�
                 Global_var.isReadyQueueEmpty = False
                 Global_var.ReadyQueue[len(Global_var.ReadyQueue)-1].status = 'Ready'
                 memoryallocation(process=i)  # 分配内存
+                UiUpdateFlag.memorybar = True
                 Global_var.WaitingQueue.remove(i)  # remove是移除指定元素，pop是指定下标的元素
                 try:
                     Global_var.WaitingQueue.sort(reverse=True, key=lambda pcb: pcb.priority)  # key传进函数的是列表中的每一个元素
@@ -88,6 +89,7 @@ def hangingprocess(pid):
             Global_var.Runningprocess.pop(n)
     UiUpdateFlag.runningprocess = True
     UiUpdateFlag.hangingqueue = True
+    UiUpdateFlag.memorybar = True
 
 
 def unhangingprocess(pid):
@@ -142,3 +144,4 @@ def reset():
     UiUpdateFlag.waitingqueue = True
     UiUpdateFlag.readyqueue = True
     UiUpdateFlag.hangingqueue = True
+    UiUpdateFlag.memorybar = True

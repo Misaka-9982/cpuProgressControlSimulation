@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -26,7 +26,7 @@
       <x>260</x>
       <y>660</y>
       <width>611</width>
-      <height>101</height>
+      <height>128</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_3">
@@ -80,6 +80,12 @@
      </item>
      <item row="1" column="0" colspan="3">
       <widget class="QTableWidget" name="MemoryBar">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="verticalScrollBarPolicy">
         <enum>Qt::ScrollBarAsNeeded</enum>
        </property>
@@ -96,7 +102,7 @@
         <enum>QAbstractItemView::SelectRows</enum>
        </property>
        <property name="showGrid">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="rowCount">
         <number>1</number>

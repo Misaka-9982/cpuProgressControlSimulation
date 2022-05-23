@@ -94,6 +94,18 @@ def getreset():
     reset()
 
 
+def initialmemorybar():
+    # 操作系统占用
+    for z in range(50):
+        ui.MemoryBar.setItem(0, z, QTableWidgetItem())
+        ui.MemoryBar.setColumnWidth(z, 12)  # 编辑器里的默认行宽小于24会失效
+    memoryallocation(Global_var.OperationSystem)
+    for z in range(8):  # 操作系统内存占用的格子，16% 7格 range(8) 0-7
+        ui.MemoryBar.setItem(0, z, QTableWidgetItem())
+        ui.MemoryBar.item(0, z).setBackground(QColor(241, 162, 26))
+
+
+
 def uiupdatequeuedetect():
     while True:
         # 刷新等待队列ui
@@ -168,12 +180,13 @@ def uiupdatequeuedetect():
         # 内存占用条更新
         if UiUpdateFlag.memorybar:
             # 一格对应2%
-            for i in range(int((175/1024)*50),
-                           int(((Global_var.SumSpace-Global_var.FreeMemory)/Global_var.SumSpace)*50)):
-                ui.MemoryBar.setItem(0, i, QTableWidgetItem())
+            for i in range(8, 50):  # 去掉操作系统占用的格子
+                ui.MemoryBar.item(0, i).setBackground(QColor(255, 255, 255))
+            for i in range(8, int(((Global_var.SumSpace-Global_var.FreeMemory)/Global_var.SumSpace)*50)):
                 ui.MemoryBar.item(0, i).setBackground(QColor(132, 170, 10))
             ui.MemoryBar.viewport().update()
             UiUpdateFlag.memorybar = False
+
 
 if __name__ == '__main__':     # mainThread
     app = QApplication(sys.argv)
@@ -181,14 +194,11 @@ if __name__ == '__main__':     # mainThread
     ui = Window.Ui_MainWindow()  # 创建ui对象
     ui.setupUi(Mainwindow)
 
+    # 初始化进度条
+    initialmemorybar()
+
     # 限制输入框数据类型
     edittextvaluecontrol()
-
-    # 操作系统占用
-    memoryallocation(Global_var.OperationSystem)
-    for z in range(int((175/1024)*50)):
-        ui.MemoryBar.setItem(0, z, QTableWidgetItem())
-        ui.MemoryBar.item(0, z).setBackground(QColor(241, 162, 26))
 
     # 绑定槽函数
     ui.AddButton.clicked.connect(pressaddbutton)  # 添加
