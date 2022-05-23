@@ -9,6 +9,7 @@ class PCB:
         self.memory = memory                       # self为对象成员，不加self为类成员，对应java中不加和加static
         self.priority = priority
         self.status = status
+        self.waittime = 0
         self.pid = random.randint(0, 65536)
         while not self.ispidlegal(self.pid):
             self.pid = random.randint(0, 65536)

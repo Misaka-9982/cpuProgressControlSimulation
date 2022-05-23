@@ -39,7 +39,19 @@ def memorydetect():
     beforememory = Global_var.SumSpace
     while True:
         sleep(1)
-        sumusedmemory = 0
+        # 动态优先级，因为涉及到计时不能放在本身耗时较长的线程中执行
+        # 每20秒优先级+1，超60秒未执行优先级升到5
+        for n, i in enumerate(Global_var.ReadyQueue):
+            Global_var.ReadyQueue[n].waittime += 1
+            if i.waittime % 20 == 0 and int(i.priority) < 5 and i.waittime != 0:
+                t = int(Global_var.ReadyQueue[n].priority)
+                t += 1
+                Global_var.ReadyQueue[n].priority = str(t)
+                UiUpdateFlag.readyqueue = True
+            if i.waittime >= 60:
+                Global_var.ReadyQueue[n].priority = '5'
+                UiUpdateFlag.readyqueue = True
+
         y = 0
         for x in Global_var.FreePartition:
             y += x.size

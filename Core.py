@@ -42,6 +42,7 @@ def cputiming():  # cpu计时，要在检测就绪队列之后启动
                     UiUpdateFlag.runningprocess = True
                 else:
                     Global_var.Runningprocess[n].runningtime -= 1
+                    Global_var.Runningprocess[n].waittime = 0
                     # print('-1s')
             UiUpdateFlag.runningprocesstime = True
 
