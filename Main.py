@@ -103,6 +103,10 @@ def initialmemorybar():
     for z in range(8):  # 操作系统内存占用的格子，16% 7格 range(8) 0-7
         ui.MemoryBar.setItem(0, z, QTableWidgetItem())
         ui.MemoryBar.item(0, z).setBackground(QColor(241, 162, 26))
+    ui.OsLabel.setItem(0, 0, QTableWidgetItem())
+    ui.OsLabel.item(0, 0).setBackground(QColor(241, 162, 26))
+    ui.OtherLabel.setItem(0, 0, QTableWidgetItem())
+    ui.OtherLabel.item(0, 0).setBackground(QColor(132, 170, 10))
 
 
 
@@ -177,13 +181,16 @@ def uiupdatequeuedetect():
             ui.HangingQueue.viewport().update()
             UiUpdateFlag.hangingqueue = False
 
-        # 内存占用条更新
+        # 内存占用条和百分比数字更新
         if UiUpdateFlag.memorybar:
             # 一格对应2%
             for i in range(8, 50):  # 去掉操作系统占用的格子
                 ui.MemoryBar.item(0, i).setBackground(QColor(255, 255, 255))
             for i in range(8, int(((Global_var.SumSpace-Global_var.FreeMemory)/Global_var.SumSpace)*50)):
                 ui.MemoryBar.item(0, i).setBackground(QColor(132, 170, 10))
+            ui.MemoryNumLabel.setText(str(int(((Global_var.SumSpace-Global_var.FreeMemory)/1024)*100)) +
+                                      '%' + '  ' + str(Global_var.SumSpace-Global_var.FreeMemory) +
+                                      'M' + '/1024M')
             ui.MemoryBar.viewport().update()
             UiUpdateFlag.memorybar = False
 
