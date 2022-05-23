@@ -1,4 +1,5 @@
 from PyQt5.QtWidgets import QMainWindow, QApplication, QTableWidgetItem
+from PyQt5.QtGui import QColor
 import sys
 import Global_var
 import Window
@@ -37,14 +38,16 @@ def edittextvaluecontrol():
 def memorydetect():
     beforememory = Global_var.SumSpace
     while True:
-        sleep(2)
+        sleep(1)
         sumusedmemory = 0
         y = 0
         for x in Global_var.FreePartition:
             y += x.size
         if y != beforememory:
             beforememory = y
+            Global_var.FreeMemory = y
             print('freememory', y)
+            UiUpdateFlag.memorybar = True
 
 
 def getdeleterunningprocess():
@@ -162,6 +165,15 @@ def uiupdatequeuedetect():
             ui.HangingQueue.viewport().update()
             UiUpdateFlag.hangingqueue = False
 
+        # 内存占用条更新
+        if UiUpdateFlag.memorybar:
+            # 一格对应2%
+            for i in range(int((175/1024)*50),
+                           int(((Global_var.SumSpace-Global_var.FreeMemory)/Global_var.SumSpace)*50)):
+                ui.MemoryBar.setItem(0, i, QTableWidgetItem())
+                ui.MemoryBar.item(0, i).setBackground(QColor(132, 170, 10))
+            ui.MemoryBar.viewport().update()
+            UiUpdateFlag.memorybar = False
 
 if __name__ == '__main__':     # mainThread
     app = QApplication(sys.argv)
@@ -171,6 +183,12 @@ if __name__ == '__main__':     # mainThread
 
     # 限制输入框数据类型
     edittextvaluecontrol()
+
+    # 操作系统占用
+    memoryallocation(Global_var.OperationSystem)
+    for z in range(int((175/1024)*50)):
+        ui.MemoryBar.setItem(0, z, QTableWidgetItem())
+        ui.MemoryBar.item(0, z).setBackground(QColor(241, 162, 26))
 
     # 绑定槽函数
     ui.AddButton.clicked.connect(pressaddbutton)  # 添加
