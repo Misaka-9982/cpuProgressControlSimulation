@@ -43,7 +43,7 @@ def memorydetect():
         # 时间戳
         ui.TimeLabel.setText(asctime())
         # 动态优先级，因为涉及到计时不能放在本身耗时较长的线程中执行
-        # 每20秒优先级+1，超90秒未执行优先级升到5
+        # 每20秒优先级+1，超120秒未执行优先级升到5
         for n, i in enumerate(Global_var.ReadyQueue):
             Global_var.ReadyQueue[n].waittime += 1
             if i.waittime % 20 == 0 and int(i.priority) < 5 and i.waittime != 0:
@@ -51,7 +51,7 @@ def memorydetect():
                 t += 1
                 Global_var.ReadyQueue[n].priority = str(t)
                 UiUpdateFlag.readyqueue = True
-            if i.waittime >= 90:
+            if i.waittime >= 120:
                 Global_var.ReadyQueue[n].priority = '5'
                 UiUpdateFlag.readyqueue = True
 
