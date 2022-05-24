@@ -430,6 +430,9 @@
          <property name="editTriggers">
           <set>QAbstractItemView::NoEditTriggers</set>
          </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::SingleSelection</enum>
+         </property>
          <property name="selectionBehavior">
           <enum>QAbstractItemView::SelectRows</enum>
          </property>
@@ -541,6 +544,9 @@
          <property name="editTriggers">
           <set>QAbstractItemView::NoEditTriggers</set>
          </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::SingleSelection</enum>
+         </property>
          <property name="selectionBehavior">
           <enum>QAbstractItemView::SelectRows</enum>
          </property>
@@ -622,6 +628,9 @@
           <widget class="QTableWidget" name="HangingQueue">
            <property name="editTriggers">
             <set>QAbstractItemView::NoEditTriggers</set>
+           </property>
+           <property name="selectionMode">
+            <enum>QAbstractItemView::SingleSelection</enum>
            </property>
            <property name="selectionBehavior">
             <enum>QAbstractItemView::SelectRows</enum>
@@ -735,6 +744,9 @@
           <widget class="QTableWidget" name="WaitingQueue">
            <property name="editTriggers">
             <set>QAbstractItemView::NoEditTriggers</set>
+           </property>
+           <property name="selectionMode">
+            <enum>QAbstractItemView::SingleSelection</enum>
            </property>
            <property name="selectionBehavior">
             <enum>QAbstractItemView::SelectRows</enum>
