@@ -1,3 +1,4 @@
+import time
 from PyQt5.QtWidgets import QMainWindow, QApplication, QTableWidgetItem
 from PyQt5.QtGui import QColor
 import sys
@@ -39,6 +40,8 @@ def memorydetect():
     beforememory = Global_var.SumSpace
     while True:
         sleep(1)
+        # 时间戳
+        ui.TimeLabel.setText(asctime())
         # 动态优先级，因为涉及到计时不能放在本身耗时较长的线程中执行
         # 每20秒优先级+1，超60秒未执行优先级升到5
         for n, i in enumerate(Global_var.ReadyQueue):

@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1134, 854)
+        MainWindow.resize(1134, 866)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -425,6 +425,14 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.label_7.setFont(font)
         self.label_7.setObjectName("label_7")
+        self.TimeLabel = QtWidgets.QLabel(self.centralwidget)
+        self.TimeLabel.setGeometry(QtCore.QRect(300, 20, 551, 16))
+        font = QtGui.QFont()
+        font.setFamily("微软雅黑")
+        font.setPointSize(12)
+        self.TimeLabel.setFont(font)
+        self.TimeLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.TimeLabel.setObjectName("TimeLabel")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1134, 26))
@@ -506,3 +514,4 @@ class Ui_MainWindow(object):
         self.MemoryNumLabel.setText(_translate("MainWindow", "0%  "))
         self.label.setText(_translate("MainWindow", "操作系统"))
         self.label_7.setText(_translate("MainWindow", "其他进程"))
+        self.TimeLabel.setText(_translate("MainWindow", "Time"))
