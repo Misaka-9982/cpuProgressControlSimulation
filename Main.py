@@ -247,6 +247,11 @@ def uiupdatequeuedetect():
                 QApplication.processEvents()  # 刷新界面，提高ui流畅度
                 ui.UsedPartitiontTable.removeRow(i)
             ui.UsedPartitiontTable.setRowCount(len(Global_var.UsedPartition))
+            try:
+                # 打乱Queue，排一次序
+                Global_var.UsedPartition.sort(key=lambda memory: memory.start)
+            except ValueError:
+                print('valueerror_w')
             for n, i in enumerate(Global_var.UsedPartition):
                 QApplication.processEvents()  # 刷新界面，提高ui流畅度
                 ui.UsedPartitiontTable.setItem(n, 0, QTableWidgetItem(str(i.start)))
