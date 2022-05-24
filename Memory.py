@@ -39,6 +39,7 @@ def memoryallocation(process):   # 分配前要先用调用检查，这里只分
             for z in Global_var.UsedPartition:
                 allocatedmemory += z.size
             print('allocatedmemory:', allocatedmemory)
+            UiUpdateFlag.usedpartition = True
             return True
     return False
 
@@ -52,6 +53,7 @@ def memoryrelease(process):
             Global_var.UsedPartition.pop(n)
             totalrelease += i.size
     memorymerge()
+    UiUpdateFlag.usedpartition = True
     print('totalrelease:', totalrelease)
 
 

@@ -111,6 +111,26 @@ def getreset():
     reset()
 
 
+def getprocessname(pid):
+    for i in Global_var.Runningprocess:
+        QApplication.processEvents()  # 刷新界面，提高ui流畅度
+        if pid == i.pid:
+            return i.processname
+    for i in Global_var.WaitingQueue:
+        QApplication.processEvents()  # 刷新界面，提高ui流畅度
+        if pid == i.pid:
+            return i.processname
+    for i in Global_var.ReadyQueue:
+        QApplication.processEvents()  # 刷新界面，提高ui流畅度
+        if pid == i.pid:
+            return i.processname
+    for i in Global_var.HangingQueue:
+        QApplication.processEvents()  # 刷新界面，提高ui流畅度
+        if pid == i.pid:
+            return i.processname
+    return Global_var.OperationSystem.processname
+
+
 def initialmemorybar():
     # 操作系统占用
     for z in range(50):
@@ -192,9 +212,11 @@ def uiupdatequeuedetect():
         # 刷新挂起队列UI
         if UiUpdateFlag.hangingqueue:
             for i in range(ui.HangingQueue.rowCount()):
+                QApplication.processEvents()  # 刷新界面，提高ui流畅度
                 ui.HangingQueue.removeRow(i)
             ui.HangingQueue.setRowCount(len(Global_var.HangingQueue))
             for n, i in enumerate(Global_var.HangingQueue):
+                QApplication.processEvents()  # 刷新界面，提高ui流畅度
                 ui.HangingQueue.setItem(n, 0, QTableWidgetItem(i.processname))
                 ui.HangingQueue.setItem(n, 1, QTableWidgetItem(str(i.pid)))
                 ui.HangingQueue.setItem(n, 2, QTableWidgetItem(i.priority))
@@ -218,6 +240,22 @@ def uiupdatequeuedetect():
                                       'M' + '/1024M')
             ui.MemoryBar.viewport().update()
             UiUpdateFlag.memorybar = False
+
+        # 已用内存块更新
+        if UiUpdateFlag.usedpartition:
+            for i in range(ui.UsedPartitiontTable.rowCount()):
+                QApplication.processEvents()  # 刷新界面，提高ui流畅度
+                ui.UsedPartitiontTable.removeRow(i)
+            ui.UsedPartitiontTable.setRowCount(len(Global_var.UsedPartition))
+            for n, i in enumerate(Global_var.UsedPartition):
+                QApplication.processEvents()  # 刷新界面，提高ui流畅度
+                ui.UsedPartitiontTable.setItem(n, 0, QTableWidgetItem(str(i.start)))
+                ui.UsedPartitiontTable.setItem(n, 1, QTableWidgetItem(str(i.size)))
+                ui.UsedPartitiontTable.setItem(n, 2, QTableWidgetItem(str(getprocessname(i.usingprocesspid))))
+                ui.UsedPartitiontTable.setItem(n, 3, QTableWidgetItem(str(i.usingprocesspid)))
+            ui.UsedPartitiontTable.viewport().update()
+            ui.UsedPartitiontTable.viewport().update()
+            UiUpdateFlag.usedpartition = False
 
 
 if __name__ == '__main__':     # mainThread

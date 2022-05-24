@@ -380,7 +380,7 @@
       <x>10</x>
       <y>50</y>
       <width>341</width>
-      <height>601</height>
+      <height>321</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_7">
@@ -1056,7 +1056,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>670</y>
+      <y>690</y>
       <width>221</width>
       <height>41</height>
      </rect>
@@ -1084,7 +1084,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>700</y>
+      <y>720</y>
       <width>221</width>
       <height>32</height>
      </rect>
@@ -1115,7 +1115,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>660</y>
+      <y>670</y>
       <width>121</width>
       <height>16</height>
      </rect>
@@ -1129,6 +1129,112 @@
     <property name="text">
      <string>内存可变分区中</string>
     </property>
+   </widget>
+   <widget class="QWidget" name="layoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>370</y>
+      <width>341</width>
+      <height>251</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout_9">
+     <item row="0" column="0" colspan="2">
+      <layout class="QGridLayout" name="gridLayout_10">
+       <item row="0" column="3" rowspan="2">
+        <spacer name="horizontalSpacer_12">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>68</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="0" rowspan="2">
+        <spacer name="horizontalSpacer_13">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>78</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="1" colspan="2">
+        <widget class="QLabel" name="ReadyQueueLabel_2">
+         <property name="font">
+          <font>
+           <family>微软雅黑</family>
+           <pointsize>15</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>已分配内存块</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="4">
+        <widget class="QTableWidget" name="UsedPartitiontTable">
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::SingleSelection</enum>
+         </property>
+         <property name="selectionBehavior">
+          <enum>QAbstractItemView::SelectRows</enum>
+         </property>
+         <property name="rowCount">
+          <number>0</number>
+         </property>
+         <property name="columnCount">
+          <number>4</number>
+         </property>
+         <attribute name="horizontalHeaderVisible">
+          <bool>true</bool>
+         </attribute>
+         <attribute name="horizontalHeaderDefaultSectionSize">
+          <number>83</number>
+         </attribute>
+         <attribute name="verticalHeaderVisible">
+          <bool>false</bool>
+         </attribute>
+         <attribute name="verticalHeaderCascadingSectionResizes">
+          <bool>false</bool>
+         </attribute>
+         <column>
+          <property name="text">
+           <string>起址</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>大小</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>占用进程名</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>进程PID</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

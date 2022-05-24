@@ -81,7 +81,11 @@ def detectreadyprocessqueue():  # 检测就绪队列有无需要抢占当前运�
                                 print('valueerror_r')
                     except ValueError:
                         print('object has been removed')
+                    except IndexError:
+                        print('Runningprocess has been removed')
             except AttributeError:
+                print('Runningprocess has been removed')
+            except IndexError:
                 print('Runningprocess has been removed')
 
 

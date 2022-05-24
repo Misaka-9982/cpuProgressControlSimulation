@@ -45,6 +45,7 @@ class UiUpdateFlag:
     runningprocesstime = False
     hangingqueue = False
     memorybar = False
+    usedpartition = False
 '''
 class LinkList:
     def __init__(self, data, nextnode):

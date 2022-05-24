@@ -7,7 +7,8 @@ WaitingQueue = []   # 后备队列
 Runningprocess = []  # 正在运行的进程
 UsedPartition = []
 FreeMemory = 1024
-OperationSystem = Memory.PCB('operationsystem', 'infinite', 175, 5, 'running')
+OperationSystem = Memory.PCB(processname='OS', runningtime='infinite', memory=175, priority=5,
+                             status='running')
 FreePartition = [Memory.MemoryPartition()]
 SumSpace = 1024
 
