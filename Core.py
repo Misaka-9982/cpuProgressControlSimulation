@@ -2,6 +2,7 @@ import threading
 import Global_var
 from time import *
 from Memory import *
+from PyQt5.QtWidgets import QApplication
 
 
 # 该模块为与ui无关的逻辑函数
@@ -10,10 +11,10 @@ from Memory import *
 def detectwaitingprocessqueue():  # 检测后备队列有无可调入就绪队列的进程
     while True:
         for i in Global_var.WaitingQueue:
+            QApplication.processEvents()  # 刷新界面，提高ui流畅度
             # print(ismemoryenough(process=i))
             if ismemoryenough(process=i) is True:
                 Global_var.ReadyQueue.append(i)
-                Global_var.isReadyQueueEmpty = False
                 Global_var.ReadyQueue[len(Global_var.ReadyQueue)-1].status = 'Ready'
                 memoryallocation(process=i)  # 分配内存
                 UiUpdateFlag.memorybar = True
@@ -34,6 +35,7 @@ def detectwaitingprocessqueue():  # 检测后备队列有无可调入就绪队�
 
 def cputiming():  # cpu计时，要在检测就绪队列之后启动
     while True:
+        QApplication.processEvents()  # 刷新界面，提高ui流畅度
         if len(Global_var.Runningprocess) != 0:
             sleep(1)
             for n, i in enumerate(Global_var.Runningprocess):
@@ -52,6 +54,7 @@ def detectreadyprocessqueue():  # 检测就绪队列有无需要抢占当前运�
     while True:
         # 反复排序会导致ui闪烁，将对ReadyQueue的排序移动到每次对其抢占操作后
         if len(Global_var.ReadyQueue):
+            QApplication.processEvents()  # 刷新界面，提高ui流畅度
             try:
                 if len(Global_var.Runningprocess) < 3:
                     Global_var.Runningprocess.append(Global_var.ReadyQueue[0])
@@ -84,6 +87,7 @@ def detectreadyprocessqueue():  # 检测就绪队列有无需要抢占当前运�
 
 def hangingprocess(pid):
     for n, i in enumerate(Global_var.Runningprocess):
+        QApplication.processEvents()  # 刷新界面，提高ui流畅度
         if pid == i.pid:
             Global_var.Runningprocess[n].status = 'Hanging'
             Global_var.HangingQueue.append(Global_var.Runningprocess[n])
@@ -96,6 +100,7 @@ def hangingprocess(pid):
 
 def unhangingprocess(pid):
     for n, i in enumerate(Global_var.HangingQueue):
+        QApplication.processEvents()  # 刷新界面，提高ui流畅度
         if pid == i.pid:
             Global_var.HangingQueue[n].status = 'Waiting'
             Global_var.WaitingQueue.append(Global_var.HangingQueue[n])

@@ -1,6 +1,7 @@
 import Class
 import Global_var
 from Class import *
+from PyQt5.QtWidgets import QApplication
 
 
 def ismemoryenough(process):
@@ -8,6 +9,7 @@ def ismemoryenough(process):
     # memorymerge()  # 检测前就执行一次内存合并，简化后续分配步骤，提高效率  # 合并可能本身比较费时间？# 如果要把这步拿出去，需要修改内存分配逻辑
     # 合并移动到分配函数中，该函数只负责检查，提高效率
     for i in Global_var.FreePartition:
+        QApplication.processEvents()  # 刷新界面，提高ui流畅度
         freememory += i.size
         if freememory >= process.memory:
             '''

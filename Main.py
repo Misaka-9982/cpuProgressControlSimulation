@@ -43,15 +43,16 @@ def memorydetect():
         # 时间戳
         ui.TimeLabel.setText(asctime())
         # 动态优先级，因为涉及到计时不能放在本身耗时较长的线程中执行
-        # 每20秒优先级+1，超120秒未执行优先级升到5
+        # 每30秒优先级+1，超90秒未执行优先级升到5
         for n, i in enumerate(Global_var.ReadyQueue):
             Global_var.ReadyQueue[n].waittime += 1
-            if i.waittime % 20 == 0 and int(i.priority) < 5 and i.waittime != 0:
+            QApplication.processEvents()  # 刷新界面，提高ui流畅度
+            if i.waittime % 30 == 0 and int(i.priority) < 5 and i.waittime != 0:
                 t = int(Global_var.ReadyQueue[n].priority)
                 t += 1
                 Global_var.ReadyQueue[n].priority = str(t)
                 UiUpdateFlag.readyqueue = True
-            if i.waittime >= 120:
+            if i.waittime >= 90:
                 Global_var.ReadyQueue[n].priority = '5'
                 UiUpdateFlag.readyqueue = True
 
@@ -132,9 +133,11 @@ def uiupdatequeuedetect():
         if UiUpdateFlag.waitingqueue:
             sleep(0.5)  # 防止等待队列执行过快导致未能从ui移除
             for i in range(ui.WaitingQueue.rowCount()):  # 修改前先置空表
+                QApplication.processEvents()  # 刷新界面，提高ui流畅度
                 ui.WaitingQueue.removeRow(i)
             ui.WaitingQueue.setRowCount(len(Global_var.WaitingQueue))  # 先添加要更新的行数
             for n, i in enumerate(Global_var.WaitingQueue):
+                QApplication.processEvents()  # 刷新界面，提高ui流畅度
                 ui.WaitingQueue.setItem(n, 0, QTableWidgetItem(i.processname))
                 ui.WaitingQueue.setItem(n, 1, QTableWidgetItem(str(i.pid)))
                 ui.WaitingQueue.setItem(n, 2, QTableWidgetItem(i.priority))
@@ -147,9 +150,11 @@ def uiupdatequeuedetect():
         # 刷新就绪队列ui
         if UiUpdateFlag.readyqueue:
             for i in range(ui.ReadyQueue.rowCount()):  # 修改前先置空表
+                QApplication.processEvents()  # 刷新界面，提高ui流畅度
                 ui.ReadyQueue.removeRow(i)
             ui.ReadyQueue.setRowCount(len(Global_var.ReadyQueue))  # 先添加要更新的行数
             for n, i in enumerate(Global_var.ReadyQueue):
+                QApplication.processEvents()  # 刷新界面，提高ui流畅度
                 ui.ReadyQueue.setItem(n, 0, QTableWidgetItem(i.processname))
                 ui.ReadyQueue.setItem(n, 1, QTableWidgetItem(str(i.pid)))
                 ui.ReadyQueue.setItem(n, 2, QTableWidgetItem(i.priority))
@@ -162,9 +167,11 @@ def uiupdatequeuedetect():
         # 刷新运行中ui
         if UiUpdateFlag.runningprocess:
             for i in range(ui.RunningQueue.rowCount()):
+                QApplication.processEvents()  # 刷新界面，提高ui流畅度
                 ui.RunningQueue.removeRow(i)
             ui.RunningQueue.setRowCount(len(Global_var.Runningprocess))
             for n, i in enumerate(Global_var.Runningprocess):
+                QApplication.processEvents()  # 刷新界面，提高ui流畅度
                 ui.RunningQueue.setItem(n, 0, QTableWidgetItem(i.processname))
                 ui.RunningQueue.setItem(n, 1, QTableWidgetItem(str(i.pid)))
                 ui.RunningQueue.setItem(n, 2, QTableWidgetItem(i.priority))
@@ -201,8 +208,10 @@ def uiupdatequeuedetect():
         if UiUpdateFlag.memorybar:
             # 一格对应2%
             for i in range(8, 50):  # 去掉操作系统占用的格子
+                QApplication.processEvents()  # 刷新界面，提高ui流畅度
                 ui.MemoryBar.item(0, i).setBackground(QColor(255, 255, 255))
             for i in range(8, int(((Global_var.SumSpace-Global_var.FreeMemory)/Global_var.SumSpace)*50)):
+                QApplication.processEvents()  # 刷新界面，提高ui流畅度
                 ui.MemoryBar.item(0, i).setBackground(QColor(132, 170, 10))
             ui.MemoryNumLabel.setText(str(int(((Global_var.SumSpace-Global_var.FreeMemory)/1024)*100)) +
                                       '%' + '  ' + str(Global_var.SumSpace-Global_var.FreeMemory) +
